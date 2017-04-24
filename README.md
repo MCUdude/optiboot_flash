@@ -16,6 +16,11 @@ Optiboot is an easy to install bootloader for the Arduino environment.
 * [ATmega169/P, ATmega329/P, ATmega649/P](https://github.com/MCUdude/ButterflyCore)
 * ATmega3290/P, ATmega6490/P
 
+## Building from source
+You need to install `make`, `avr-libc`, `avr-binutils` and `avr-gcc`. [This guide](http://maxembedded.com/2015/06/setting-up-avr-gcc-toolchain-on-linux-and-mac-os-x/) contains everything you need for MacOS and Linux.
+
+To build bootloaders for all supported devices, simply run `$ ./makeall`.
+
 ## Acknowledgements
 
 > Although it has evolved considerably, Optiboot builds on the original work of Jason P. Kyle (stk500boot.c), <br/>
