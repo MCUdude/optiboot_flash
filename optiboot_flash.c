@@ -499,7 +499,7 @@ int main(void) {
    */
    
 // Fix missing definitions in avr-libc   
-#if defined(__AVR_ATmega8515__) || defined(__AVR_ATmega8535__) || defined(__AVR_ATmega16__) \ 
+#if defined(__AVR_ATmega8515__) || defined(__AVR_ATmega8535__) || defined(__AVR_ATmega16__) \
 || defined(__AVR_ATmega162__) || defined (__AVR_ATmega128__)
   ch = MCUCSR;
 #else
