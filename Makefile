@@ -449,7 +449,6 @@ atmega328pb: TARGET = atmega328pb
 atmega328pb: MCU_TARGET = atmega328pb
 atmega328pb: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
 atmega328pb: LIBS += -latmega328pb
-atmega328pb: LIBS += -latmega328pb
 atmega328pb: AVR_FREQ ?= 16000000L
 atmega328pb: LDSECTIONS  = -Wl,--section-start=.text=0x7e00 -Wl,--section-start=.version=0x7ffe
 atmega328pb: atmega328pb/$(PROGRAM)_atmega328pb_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
@@ -496,7 +495,7 @@ atmega644: AVR_FREQ ?= 16000000L
 atmega644: LDSECTIONS  = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
 atmega644: atmega644/$(PROGRAM)_atmega644_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega644: atmega644/$(PROGRAM)_atmega644_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
-atmega644: atmega644a
+atmega644a: atmega644
 
 #ATmega644P/PA
 atmega644p: TARGET = atmega644p
