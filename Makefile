@@ -116,8 +116,8 @@ DEFS       =
 # of the space-savings.
 LIBS       =  -lc
 
-CC         = /Users/Hans/Library/Arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/bin/avr-gcc 
-#$(GCCROOT)avr-gcc
+CC         =  $(GCCROOT)avr-gcc
+#~/Library/Arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/bin/avr-gcc
 
 # Override is only needed by avr-lib build system.
 
