@@ -609,13 +609,13 @@ int main(void) {
 #endif
   UCSRB = _BV(RXEN) | _BV(TXEN);  // enable Rx & Tx
   UCSRC = _BV(URSEL) | _BV(UCSZ1) | _BV(UCSZ0);  // config USART; 8N1
-  UBRRL = (uint8_t)( (F_CPU + BAUD_RATE * 4L) / (BAUD_RATE * 8L) - 1 );
+  UBRRL = (uint8_t)BAUD_SETTING;
 #else
 #ifndef SINGLESPEED
    UART_SRA = _BV(U2X0); // Double speed mode USART0
  #endif  
   UART_SRB = _BV(RXEN0) | _BV(TXEN0);
-  UART_SRL = (uint8_t)( (F_CPU + BAUD_RATE * 4L) / (BAUD_RATE * 8L) - 1 );
+  UART_SRL = (uint8_t)BAUD_SETTING;
 #if defined(__AVR_ATmega162__) 
     UART_SRC = _BV(URSEL0) | _BV(UCSZ00) | _BV(UCSZ01);
 #else
