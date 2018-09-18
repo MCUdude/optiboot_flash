@@ -143,7 +143,7 @@ ifdef LED_START_FLASHES
 LED_START_FLASHES_CMD = -DLED_START_FLASHES=$(LED_START_FLASHES)
 dummy = FORCE
 else
-LED_START_FLASHES_CMD = -DLED_START_FLASHES=2
+LED_START_FLASHES_CMD = -DLED_START_FLASHES=0
 endif
 
 # BIGBOOT: Include EEPROM upload support
@@ -204,564 +204,651 @@ endif
 
 #.PRECIOUS: %.elf
 
-#---------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------
 # "Chip-level Platform" targets.
 # A "Chip-level Platform" compiles for a particular chip, but probably does
 # not have "standard" values for things like clock speed, LED pin, etc.
 # Makes for chip-level platforms should usually explicitly define their
-# options like: "make atmega1281 AVR_FREQ=16000000L LED=B5"
-#---------------------------------------------------------------------------
+# options like: "make atmega328p AVR_FREQ=16000000L BAUD_RATE=115200" LED=B5 LED_START_FLASHES=2 UART=0
+#-------------------------------------------------------------------------------------------------------
 
 
 #ATmega8/A
 atmega8: TARGET = atmega8
 atmega8: MCU_TARGET = atmega8
 atmega8: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega8: LIBS += -latmega8
-atmega8: AVR_FREQ ?= 16000000L 
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega8: LDSECTIONS = -Wl,--section-start=.text=0x1c00 -Wl,--section-start=.version=0x1ffe -Wl,--gc-sections -Wl,--undefined=optiboot_version
+atmega8: atmega8/$(AVR_FREQ)/$(PROGRAM)_atmega8_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega8: atmega8/$(AVR_FREQ)/$(PROGRAM)_atmega8_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega8: LDSECTIONS = -Wl,--section-start=.text=0x1e00 -Wl,--section-start=.version=0x1ffe -Wl,--gc-sections -Wl,--undefined=optiboot_version
-endif
 atmega8: atmega8/$(AVR_FREQ)/$(PROGRAM)_atmega8_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega8: atmega8/$(AVR_FREQ)/$(PROGRAM)_atmega8_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega8a: atmega8
 
 #ATmega16/A
 atmega16: TARGET = atmega16
 atmega16: MCU_TARGET = atmega16
 atmega16: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega16: LIBS += -latmega16
-atmega16: AVR_FREQ ?= 16000000L
+# Move bootloader location + change name if eeprom support is preset
 ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
 atmega16: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
+atmega16: atmega16/$(AVR_FREQ)/$(PROGRAM)_atmega16_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega16: atmega16/$(AVR_FREQ)/$(PROGRAM)_atmega16_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega16: LDSECTIONS = -Wl,--section-start=.text=0x3e00 -Wl,--section-start=.version=0x3ffe
-endif
 atmega16: atmega16/$(AVR_FREQ)/$(PROGRAM)_atmega16_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega16: atmega16/$(AVR_FREQ)/$(PROGRAM)_atmega16_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega16a: atmega16
 
 #ATmega32/A
 atmega32: TARGET = atmega32
 atmega32: MCU_TARGET = atmega32
 atmega32: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega32: LIBS += -latmega32
-atmega32: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega32: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
+atmega32: atmega32/$(AVR_FREQ)/$(PROGRAM)_atmega32_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega32: atmega32/$(AVR_FREQ)/$(PROGRAM)_atmega32_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega32: LDSECTIONS = -Wl,--section-start=.text=0x7e00 -Wl,--section-start=.version=0x7ffe
-endif
 atmega32: atmega32/$(AVR_FREQ)/$(PROGRAM)_atmega32_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega32: atmega32/$(AVR_FREQ)/$(PROGRAM)_atmega32_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega32a: atmega32
 
 #ATmega64/A
 atmega64: TARGET = atmega64
 atmega64: MCU_TARGET = atmega64
 atmega64: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega64: LIBS += -latmega64
-atmega64: AVR_FREQ ?= 16000000L
 atmega64: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
+atmega64: atmega64/$(AVR_FREQ)/$(PROGRAM)_atmega64_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega64: atmega64/$(AVR_FREQ)/$(PROGRAM)_atmega64_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+else
 atmega64: atmega64/$(AVR_FREQ)/$(PROGRAM)_atmega64_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega64: atmega64/$(AVR_FREQ)/$(PROGRAM)_atmega64_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega64a: atmega64
 
 #ATmega88/A
 atmega88: TARGET = atmega88
 atmega88: MCU_TARGET = atmega88
 atmega88: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega88: LIBS += -latmega88
-atmega88: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega88: LDSECTIONS = -Wl,--section-start=.text=0x1c00 -Wl,--section-start=.version=0x1ffe -Wl,--gc-sections -Wl,--undefined=optiboot_version
+atmega88: atmega88/$(AVR_FREQ)/$(PROGRAM)_atmega88_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega88: atmega88/$(AVR_FREQ)/$(PROGRAM)_atmega88_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega88: LDSECTIONS = -Wl,--section-start=.text=0x1e00 -Wl,--section-start=.version=0x1ffe -Wl,--gc-sections -Wl,--undefined=optiboot_version
-endif
 atmega88: atmega88/$(AVR_FREQ)/$(PROGRAM)_atmega88_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega88: atmega88/$(AVR_FREQ)/$(PROGRAM)_atmega88_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega88a: atmega88
 
 #ATmega88P/PA
 atmega88p: TARGET = atmega88p
 atmega88p: MCU_TARGET = atmega88p
 atmega88p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega88p: LIBS += -latmega88p
-atmega88p: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega88p: LDSECTIONS = -Wl,--section-start=.text=0x1c00 -Wl,--section-start=.version=0x1ffe -Wl,--gc-sections -Wl,--undefined=optiboot_version
+atmega88p: atmega88p/$(AVR_FREQ)/$(PROGRAM)_atmega88p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega88p: atmega88p/$(AVR_FREQ)/$(PROGRAM)_atmega88p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega88p: LDSECTIONS = -Wl,--section-start=.text=0x1e00 -Wl,--section-start=.version=0x1ffe -Wl,--gc-sections -Wl,--undefined=optiboot_version
-endif
 atmega88p: atmega88p/$(AVR_FREQ)/$(PROGRAM)_atmega88p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega88p: atmega88p/$(AVR_FREQ)/$(PROGRAM)_atmega88p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega88pa: atmega88p
 
 #ATmega88PB
 atmega88pb: TARGET = atmega88pb
 atmega88pb: MCU_TARGET = atmega88pb
 atmega88pb: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega88pb: LIBS += -latmega88pb
-atmega88pb: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega88pb: LDSECTIONS = -Wl,--section-start=.text=0x1c00 -Wl,--section-start=.version=0x1ffe -Wl,--gc-sections -Wl,--undefined=optiboot_version
+atmega88pb: atmega88pb/$(AVR_FREQ)/$(PROGRAM)_atmega88pb_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega88pb: atmega88pb/$(AVR_FREQ)/$(PROGRAM)_atmega88pb_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega88pb: LDSECTIONS = -Wl,--section-start=.text=0x1e00 -Wl,--section-start=.version=0x1ffe -Wl,--gc-sections -Wl,--undefined=optiboot_version
-endif
 atmega88pb: atmega88pb/$(AVR_FREQ)/$(PROGRAM)_atmega88pb_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega88pb: atmega88pb/$(AVR_FREQ)/$(PROGRAM)_atmega88pb_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega128/A
 atmega128: TARGET = atmega128
 atmega128: MCU_TARGET = atmega128
-atmega128: CFLAGS += $(COMMON_OPTIONS) -DBIGBOOT $(UART_CMD)
-atmega128: LIBS += -latmega128
-atmega128: AVR_FREQ ?= 16000000L
+atmega128: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
 atmega128: LDSECTIONS = -Wl,--section-start=.text=0x1fc00 -Wl,--section-start=.version=0x1fffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
+atmega128: atmega128/$(AVR_FREQ)/$(PROGRAM)_atmega128_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega128: atmega128/$(AVR_FREQ)/$(PROGRAM)_atmega128_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+else
 atmega128: atmega128/$(AVR_FREQ)/$(PROGRAM)_atmega128_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega128: atmega128/$(AVR_FREQ)/$(PROGRAM)_atmega128_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega128a: atmega128
 
 #ATmega162
 atmega162: TARGET = atmega162
 atmega162: MCU_TARGET = atmega162
 atmega162: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega162: LIBS += -latmega162
-atmega162: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega162: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
+atmega162: atmega162/$(AVR_FREQ)/$(PROGRAM)_atmega162_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega162: atmega162/$(AVR_FREQ)/$(PROGRAM)_atmega162_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega162: LDSECTIONS = -Wl,--section-start=.text=0x3e00 -Wl,--section-start=.version=0x3ffe
-endif
 atmega162: atmega162/$(AVR_FREQ)/$(PROGRAM)_atmega162_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega162: atmega162/$(AVR_FREQ)/$(PROGRAM)_atmega162_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega164/A
 atmega164a: TARGET = atmega164a
 atmega164a: MCU_TARGET = atmega164a
 atmega164a: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega164a: LIBS += -latmega164a
-atmega164a: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega164a: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
+atmega164a: atmega164a/$(AVR_FREQ)/$(PROGRAM)_atmega164a_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega164a: atmega164a/$(AVR_FREQ)/$(PROGRAM)_atmega164a_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega164a: LDSECTIONS = -Wl,--section-start=.text=0x3e00 -Wl,--section-start=.version=0x3ffe
-endif
 atmega164a: atmega164a/$(AVR_FREQ)/$(PROGRAM)_atmega164a_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega164a: atmega164a/$(AVR_FREQ)/$(PROGRAM)_atmega164a_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega164: atmega164a
 
 #ATmega164P/PA
 atmega164p: TARGET = atmega164p
 atmega164p: MCU_TARGET = atmega164p
 atmega164p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega164p: LIBS += -latmega164p
-atmega164p: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega164p: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
+atmega164p: atmega164p/$(AVR_FREQ)/$(PROGRAM)_atmega164p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega164p: atmega164p/$(AVR_FREQ)/$(PROGRAM)_atmega164p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega164p: LDSECTIONS = -Wl,--section-start=.text=0x3e00 -Wl,--section-start=.version=0x3ffe
-endif
 atmega164p: atmega164p/$(AVR_FREQ)/$(PROGRAM)_atmega164p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega164p: atmega164p/$(AVR_FREQ)/$(PROGRAM)_atmega164p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega164pa: atmega164p
 
 #ATmega168/A
 atmega168: TARGET = atmega168
 atmega168: MCU_TARGET = atmega168
 atmega168: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega168: LIBS += -latmega168
-atmega168: AVR_FREQ ?= 16000000L 
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega168: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
+atmega168: atmega168/$(AVR_FREQ)/$(PROGRAM)_atmega168_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega168: atmega168/$(AVR_FREQ)/$(PROGRAM)_atmega168_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega168: LDSECTIONS = -Wl,--section-start=.text=0x3e00 -Wl,--section-start=.version=0x3ffe
-endif
 atmega168: atmega168/$(AVR_FREQ)/$(PROGRAM)_atmega168_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega168: atmega168/$(AVR_FREQ)/$(PROGRAM)_atmega168_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega168a: atmega168
 
 #ATmega168P/PA
 atmega168p: TARGET = atmega168p
 atmega168p: MCU_TARGET = atmega168p
 atmega168p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega168p: LIBS += -latmega168p
-atmega168p: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega168p: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
+atmega168p: atmega168p/$(AVR_FREQ)/$(PROGRAM)_atmega168p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega168p: atmega168p/$(AVR_FREQ)/$(PROGRAM)_atmega168p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega168p: LDSECTIONS = -Wl,--section-start=.text=0x3e00 -Wl,--section-start=.version=0x3ffe
-endif
 atmega168p: atmega168p/$(AVR_FREQ)/$(PROGRAM)_atmega168p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega168p: atmega168p/$(AVR_FREQ)/$(PROGRAM)_atmega168p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega168pa: atmega168p
 
 #ATmega168PB
 atmega168pb: TARGET = atmega168pb
 atmega168pb: MCU_TARGET = atmega168pb
 atmega168pb: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega168pb: LIBS += -latmega168pb
-atmega168pb: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega168pb: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
+atmega168pb: atmega168pb/$(AVR_FREQ)/$(PROGRAM)_atmega168pb_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega168pb: atmega168pb/$(AVR_FREQ)/$(PROGRAM)_atmega168pb_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega168pb: LDSECTIONS = -Wl,--section-start=.text=0x3e00 -Wl,--section-start=.version=0x3ffe
-endif
 atmega168pb: atmega168pb/$(AVR_FREQ)/$(PROGRAM)_atmega168pb_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega168pb: atmega168pb/$(AVR_FREQ)/$(PROGRAM)_atmega168pb_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega169/A
 atmega169: TARGET = atmega169
 atmega169: MCU_TARGET = atmega169
 atmega169: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega169: LIBS += -latmega169
-atmega169: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega169: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
+atmega169: atmega169/$(AVR_FREQ)/$(PROGRAM)_atmega169_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega169: atmega169/$(AVR_FREQ)/$(PROGRAM)_atmega169_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega169: LDSECTIONS = -Wl,--section-start=.text=0x3e00 -Wl,--section-start=.version=0x3ffe
-endif
 atmega169: atmega169/$(AVR_FREQ)/$(PROGRAM)_atmega169_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega169: atmega169/$(AVR_FREQ)/$(PROGRAM)_atmega169_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega169a: atmega169
 
 #ATmega169P/PA
 atmega169p: TARGET = atmega169p
 atmega169p: MCU_TARGET = atmega169p
 atmega169p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega169p: LIBS += -latmega169p
-atmega169p: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega169p: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
+atmega169p: atmega169p/$(AVR_FREQ)/$(PROGRAM)_atmega169p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega169p: atmega169p/$(AVR_FREQ)/$(PROGRAM)_atmega169p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega169p: LDSECTIONS = -Wl,--section-start=.text=0x3e00 -Wl,--section-start=.version=0x3ffe
-endif
 atmega169p: atmega169p/$(AVR_FREQ)/$(PROGRAM)_atmega169p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega169p: atmega169p/$(AVR_FREQ)/$(PROGRAM)_atmega169p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega169pa: atmega169
 
 #ATmega324A
 atmega324a: TARGET = atmega324a
 atmega324a: MCU_TARGET = atmega324a
 atmega324a: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega324a: LIBS += -latmega324a
-atmega324a: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega324a: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
+atmega324a: atmega324a/$(AVR_FREQ)/$(PROGRAM)_atmega324a_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega324a: atmega324a/$(AVR_FREQ)/$(PROGRAM)_atmega324a_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega324a: LDSECTIONS = -Wl,--section-start=.text=0x7e00 -Wl,--section-start=.version=0x7ffe
-endif
 atmega324a: atmega324a/$(AVR_FREQ)/$(PROGRAM)_atmega324a_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega324a: atmega324a/$(AVR_FREQ)/$(PROGRAM)_atmega324a_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega324: atmega324a
 
 #ATmega324P
 atmega324p: TARGET = atmega324p
 atmega324p: MCU_TARGET = atmega324p
 atmega324p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega324p: LIBS += -latmega324p
-atmega324p: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega324p: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
+atmega324p: atmega324p/$(AVR_FREQ)/$(PROGRAM)_atmega324p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega324p: atmega324p/$(AVR_FREQ)/$(PROGRAM)_atmega324p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega324p: LDSECTIONS = -Wl,--section-start=.text=0x7e00 -Wl,--section-start=.version=0x7ffe
-endif
 atmega324p: atmega324p/$(AVR_FREQ)/$(PROGRAM)_atmega324p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega324p: atmega324p/$(AVR_FREQ)/$(PROGRAM)_atmega324p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega324PA
 atmega324pa: TARGET = atmega324pa
 atmega324pa: MCU_TARGET = atmega324pa
 atmega324pa: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega324pa: LIBS += -latmega324pa
-atmega324pa: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega324pa: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
+atmega324pa: atmega324pa/$(AVR_FREQ)/$(PROGRAM)_atmega324pa_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega324pa: atmega324pa/$(AVR_FREQ)/$(PROGRAM)_atmega324pa_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega324pa: LDSECTIONS = -Wl,--section-start=.text=0x7e00 -Wl,--section-start=.version=0x7ffe
-endif
 atmega324pa: atmega324pa/$(AVR_FREQ)/$(PROGRAM)_atmega324pa_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega324pa: atmega324pa/$(AVR_FREQ)/$(PROGRAM)_atmega324pa_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega324PB
 atmega324pb: TARGET = atmega324pb
 atmega324pb: MCU_TARGET = atmega324pb
 atmega324pb: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega324pb: LIBS += -latmega324pb
-atmega324pb: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega324pb: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
+atmega324pb: atmega324pb/$(AVR_FREQ)/$(PROGRAM)_atmega324pb_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega324pb: atmega324pb/$(AVR_FREQ)/$(PROGRAM)_atmega324pb_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega324pb: LDSECTIONS = -Wl,--section-start=.text=0x7e00 -Wl,--section-start=.version=0x7ffe
-endif
 atmega324pb: atmega324pb/$(AVR_FREQ)/$(PROGRAM)_atmega324pb_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega324pb: atmega324pb/$(AVR_FREQ)/$(PROGRAM)_atmega324pb_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega328/A
 atmega328: TARGET = atmega328
 atmega328: MCU_TARGET = atmega328
 atmega328: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega328: LIBS += -latmega328
-atmega328: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega328: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
+atmega328: atmega328/$(AVR_FREQ)/$(PROGRAM)_atmega328_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega328: atmega328/$(AVR_FREQ)/$(PROGRAM)_atmega328_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega328: LDSECTIONS = -Wl,--section-start=.text=0x7e00 -Wl,--section-start=.version=0x7ffe
-endif
 atmega328: atmega328/$(AVR_FREQ)/$(PROGRAM)_atmega328_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega328: atmega328/$(AVR_FREQ)/$(PROGRAM)_atmega328_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega328a: atmega328
 
 #ATmega328P/PA
 atmega328p: TARGET = atmega328p
 atmega328p: MCU_TARGET = atmega328p
 atmega328p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega328p: LIBS += -latmega328p
-atmega328p: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega328p: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
+atmega328p: atmega328p/$(AVR_FREQ)/$(PROGRAM)_atmega328p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega328p: atmega328p/$(AVR_FREQ)/$(PROGRAM)_atmega328p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega328p: LDSECTIONS = -Wl,--section-start=.text=0x7e00 -Wl,--section-start=.version=0x7ffe
-endif
 atmega328p: atmega328p/$(AVR_FREQ)/$(PROGRAM)_atmega328p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega328p: atmega328p/$(AVR_FREQ)/$(PROGRAM)_atmega328p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega328pa: atmega328p
 
 #ATmega328PB
 atmega328pb: TARGET = atmega328pb
 atmega328pb: MCU_TARGET = atmega328pb
 atmega328pb: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega328pb: LIBS += -latmega328pb
-atmega328pb: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega328pb: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
+atmega328pb: atmega328pb/$(AVR_FREQ)/$(PROGRAM)_atmega328pb_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega328pb: atmega328pb/$(AVR_FREQ)/$(PROGRAM)_atmega328pb_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega328pb: LDSECTIONS = -Wl,--section-start=.text=0x7e00 -Wl,--section-start=.version=0x7ffe
-endif
 atmega328pb: atmega328pb/$(AVR_FREQ)/$(PROGRAM)_atmega328pb_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega328pb: atmega328pb/$(AVR_FREQ)/$(PROGRAM)_atmega328pb_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega329/A
 atmega329: TARGET = atmega329
 atmega329: MCU_TARGET = atmega329
 atmega329: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega329: LIBS += -latmega329
-atmega329: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega329: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
+atmega329: atmega329/$(AVR_FREQ)/$(PROGRAM)_atmega329_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega329: atmega329/$(AVR_FREQ)/$(PROGRAM)_atmega329_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega329: LDSECTIONS = -Wl,--section-start=.text=0x7e00 -Wl,--section-start=.version=0x7ffe
-endif
 atmega329: atmega329/$(AVR_FREQ)/$(PROGRAM)_atmega329_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega329: atmega329/$(AVR_FREQ)/$(PROGRAM)_atmega329_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega329a: atmega329
 
 #ATmega329P/PA
 atmega329p: TARGET = atmega329p
 atmega329p: MCU_TARGET = atmega329p
 atmega329p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega329p: LIBS += -latmega329p
-atmega329p: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega329p: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
+atmega329p: atmega329p/$(AVR_FREQ)/$(PROGRAM)_atmega329p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega329p: atmega329p/$(AVR_FREQ)/$(PROGRAM)_atmega329p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega329p: LDSECTIONS = -Wl,--section-start=.text=0x7e00 -Wl,--section-start=.version=0x7ffe
-endif
 atmega329p: atmega329p/$(AVR_FREQ)/$(PROGRAM)_atmega329p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega329p: atmega329p/$(AVR_FREQ)/$(PROGRAM)_atmega329p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega329pa: atmega329p
 
 #ATmega640
 atmega640: TARGET = atmega640
 atmega640: MCU_TARGET = atmega640
 atmega640: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega640: LIBS += -latmega640
-atmega640: AVR_FREQ ?= 16000000L
 atmega640: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
+atmega640: atmega640/$(AVR_FREQ)/$(PROGRAM)_atmega640_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega640: atmega640/$(AVR_FREQ)/$(PROGRAM)_atmega640_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+else
 atmega640: atmega640/$(AVR_FREQ)/$(PROGRAM)_atmega640_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega640: atmega640/$(AVR_FREQ)/$(PROGRAM)_atmega640_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega644/A
 atmega644: TARGET = atmega644a
 atmega644: MCU_TARGET = atmega644a
 atmega644: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega644: LIBS += -latmega644a
-atmega644: AVR_FREQ ?= 16000000L
 atmega644: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
+atmega644: atmega644/$(AVR_FREQ)/$(PROGRAM)_atmega644_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega644: atmega644/$(AVR_FREQ)/$(PROGRAM)_atmega644_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+else
 atmega644: atmega644/$(AVR_FREQ)/$(PROGRAM)_atmega644_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega644: atmega644/$(AVR_FREQ)/$(PROGRAM)_atmega644_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega644a: atmega644
 
 #ATmega644P/PA
 atmega644p: TARGET = atmega644p
 atmega644p: MCU_TARGET = atmega644p
 atmega644p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega644p: LIBS += -latmega644p
-atmega644p: AVR_FREQ ?= 16000000L
 atmega644p: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
+atmega644p: atmega644p/$(AVR_FREQ)/$(PROGRAM)_atmega644p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega644p: atmega644p/$(AVR_FREQ)/$(PROGRAM)_atmega644p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+else
 atmega644p: atmega644p/$(AVR_FREQ)/$(PROGRAM)_atmega644p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega644p: atmega644p/$(AVR_FREQ)/$(PROGRAM)_atmega644p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega644pa: atmega644p
 
 #ATmega649
 atmega649: TARGET = atmega649
 atmega649: MCU_TARGET = atmega649
 atmega649: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega649: LIBS += -latmega649
-atmega649: AVR_FREQ ?= 16000000L
 atmega649: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
+atmega649: atmega649/$(AVR_FREQ)/$(PROGRAM)_atmega649_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega649: atmega640/$(AVR_FREQ)/$(PROGRAM)_atmega649_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+else
 atmega649: atmega649/$(AVR_FREQ)/$(PROGRAM)_atmega649_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega649: atmega640/$(AVR_FREQ)/$(PROGRAM)_atmega649_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
+
 
 #ATmega649P
 atmega649p: TARGET = atmega649p
 atmega649p: MCU_TARGET = atmega649p
 atmega649p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega649p: LIBS += -latmega649p
-atmega649p: AVR_FREQ ?= 16000000L
 atmega649p: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
+atmega649p: atmega649p/$(AVR_FREQ)/$(PROGRAM)_atmega649p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega649p: atmega649p/$(AVR_FREQ)/$(PROGRAM)_atmega649p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+else
 atmega649p: atmega649p/$(AVR_FREQ)/$(PROGRAM)_atmega649p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega649p: atmega649p/$(AVR_FREQ)/$(PROGRAM)_atmega649p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega1280
 atmega1280: TARGET = atmega1280
 atmega1280: MCU_TARGET = atmega1280
 atmega1280: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega1280: LIBS += -latmega1280
-atmega1280: AVR_FREQ ?= 16000000L
 atmega1280: LDSECTIONS = -Wl,--section-start=.text=0x1fc00 -Wl,--section-start=.version=0x1fffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
+atmega1280: atmega1280/$(AVR_FREQ)/$(PROGRAM)_atmega1280_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega1280: atmega1280/$(AVR_FREQ)/$(PROGRAM)_atmega1280_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+else
 atmega1280: atmega1280/$(AVR_FREQ)/$(PROGRAM)_atmega1280_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega1280: atmega1280/$(AVR_FREQ)/$(PROGRAM)_atmega1280_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega1281
 atmega1281: TARGET = atmega1281
 atmega1281: MCU_TARGET = atmega1281
 atmega1281: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega1281: LIBS += -latmega1281
-atmega1281: AVR_FREQ ?= 16000000L
 atmega1281: LDSECTIONS = -Wl,--section-start=.text=0x1fc00 -Wl,--section-start=.version=0x1fffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
+atmega1281: atmega1281/$(AVR_FREQ)/$(PROGRAM)_atmega1281_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega1281: atmega1281/$(AVR_FREQ)/$(PROGRAM)_atmega1281_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+else
 atmega1281: atmega1281/$(AVR_FREQ)/$(PROGRAM)_atmega1281_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega1281: atmega1281/$(AVR_FREQ)/$(PROGRAM)_atmega1281_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega1284
 atmega1284: TARGET = atmega1284
 atmega1284: MCU_TARGET = atmega1284
 atmega1284: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega1284: LIBS += -latmega1284
-atmega1284: AVR_FREQ ?= 16000000L
 atmega1284: LDSECTIONS = -Wl,--section-start=.text=0x1fc00 -Wl,--section-start=.version=0x1fffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
+atmega1284: atmega1284/$(AVR_FREQ)/$(PROGRAM)_atmega1284_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega1284: atmega1284/$(AVR_FREQ)/$(PROGRAM)_atmega1284_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+else
 atmega1284: atmega1284/$(AVR_FREQ)/$(PROGRAM)_atmega1284_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega1284: atmega1284/$(AVR_FREQ)/$(PROGRAM)_atmega1284_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega1284P
 atmega1284p: TARGET = atmega1284p
 atmega1284p: MCU_TARGET = atmega1284p
 atmega1284p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega1284p: LIBS += -latmega1284p
-atmega1284p: AVR_FREQ ?= 16000000L
 atmega1284p: LDSECTIONS = -Wl,--section-start=.text=0x1fc00 -Wl,--section-start=.version=0x1fffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
+atmega1284p: atmega1284p/$(AVR_FREQ)/$(PROGRAM)_atmega1284p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega1284p: atmega1284p/$(AVR_FREQ)/$(PROGRAM)_atmega1284p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+else
 atmega1284p: atmega1284p/$(AVR_FREQ)/$(PROGRAM)_atmega1284p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega1284p: atmega1284p/$(AVR_FREQ)/$(PROGRAM)_atmega1284p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega2560
 atmega2560: TARGET = atmega2560
 atmega2560: MCU_TARGET = atmega2560
 atmega2560: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega2560: LIBS += -latmega2560
-atmega2560: AVR_FREQ ?= 16000000L
 atmega2560: LDSECTIONS = -Wl,--section-start=.text=0x3fc00 -Wl,--section-start=.version=0x3fffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
+atmega2560: atmega2560/$(AVR_FREQ)/$(PROGRAM)_atmega2560_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega2560: atmega2560/$(AVR_FREQ)/$(PROGRAM)_atmega2560_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+else
 atmega2560: atmega2560/$(AVR_FREQ)/$(PROGRAM)_atmega2560_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega2560: atmega2560/$(AVR_FREQ)/$(PROGRAM)_atmega2560_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega2561
 atmega2561: TARGET = atmega2561
 atmega2561: MCU_TARGET = atmega2561
 atmega2561: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega2561: LIBS += -latmega2561
-atmega2561: AVR_FREQ ?= 16000000L
 atmega2561: LDSECTIONS = -Wl,--section-start=.text=0x3fc00 -Wl,--section-start=.version=0x3fffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
+atmega2561: atmega2561/$(AVR_FREQ)/$(PROGRAM)_atmega2561_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega2561: atmega2561/$(AVR_FREQ)/$(PROGRAM)_atmega2561_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+else
 atmega2561: atmega2561/$(AVR_FREQ)/$(PROGRAM)_atmega2561_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega2561: atmega2561/$(AVR_FREQ)/$(PROGRAM)_atmega2561_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega3290
 atmega3290: TARGET = atmega3290
 atmega3290: MCU_TARGET = atmega3290
 atmega3290: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega3290: LIBS += -latmega3290
-atmega3290: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega3290: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
+atmega3290: atmega3290/$(AVR_FREQ)/$(PROGRAM)_atmega3290_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega3290: atmega3290/$(AVR_FREQ)/$(PROGRAM)_atmega3290_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega3290: LDSECTIONS = -Wl,--section-start=.text=0x7e00 -Wl,--section-start=.version=0x7ffe
-endif
 atmega3290: atmega3290/$(AVR_FREQ)/$(PROGRAM)_atmega3290_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega3290: atmega3290/$(AVR_FREQ)/$(PROGRAM)_atmega3290_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega3290P/PA
 atmega3290p: TARGET = atmega3290p
 atmega3290p: MCU_TARGET = atmega3290p
 atmega3290p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega3290p: LIBS += -latmega3290p
-atmega3290p: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega3290p: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
+atmega3290p: atmega3290p/$(AVR_FREQ)/$(PROGRAM)_atmega3290p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega3290p: atmega3290p/$(AVR_FREQ)/$(PROGRAM)_atmega3290p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega3290p: LDSECTIONS = -Wl,--section-start=.text=0x7e00 -Wl,--section-start=.version=0x7ffe
-endif
 atmega3290p: atmega3290p/$(AVR_FREQ)/$(PROGRAM)_atmega3290p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega3290p: atmega3290p/$(AVR_FREQ)/$(PROGRAM)_atmega3290p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 atmega3290pa: atmega3290p
 
 #ATmega6490
 atmega6490: TARGET = atmega6490
 atmega6490: MCU_TARGET = atmega6490
 atmega6490: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega6490: LIBS += -latmega6490
-atmega6490: AVR_FREQ ?= 16000000L
 atmega6490: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
+atmega6490: atmega6490/$(AVR_FREQ)/$(PROGRAM)_atmega6490_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega6490: atmega6490/$(AVR_FREQ)/$(PROGRAM)_atmega6490_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+else
 atmega6490: atmega6490/$(AVR_FREQ)/$(PROGRAM)_atmega6490_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega6490: atmega6490/$(AVR_FREQ)/$(PROGRAM)_atmega6490_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega6490P
 atmega6490p: TARGET = atmega6490p
 atmega6490p: MCU_TARGET = atmega6490p
 atmega6490p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega6490p: LIBS += -latmega6490p
-atmega6490p: AVR_FREQ ?= 16000000L
 atmega6490p: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
+atmega6490p: atmega6490p/$(AVR_FREQ)/$(PROGRAM)_atmega6490p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega6490p: atmega6490p/$(AVR_FREQ)/$(PROGRAM)_atmega6490p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+else
 atmega6490p: atmega6490p/$(AVR_FREQ)/$(PROGRAM)_atmega6490p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega6490p: atmega6490p/$(AVR_FREQ)/$(PROGRAM)_atmega6490p_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega8515
 atmega8515: TARGET = atmega8515
 atmega8515: MCU_TARGET = atmega8515
 atmega8515: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega8515: LIBS += -latmega8515
-atmega8515: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
+# Move bootloader location + change name if eeprom support is preset
 atmega8515: LDSECTIONS = -Wl,--section-start=.text=0x1c00 -Wl,--section-start=.version=0x1ffe
+atmega8515: atmega8515/$(AVR_FREQ)/$(PROGRAM)_atmega8515_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega8515: atmega8515/$(AVR_FREQ)/$(PROGRAM)_atmega8515_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega8515: LDSECTIONS = -Wl,--section-start=.text=0x1e00 -Wl,--section-start=.version=0x1ffe
-endif
 atmega8515: atmega8515/$(AVR_FREQ)/$(PROGRAM)_atmega8515_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega8515: atmega8515/$(AVR_FREQ)/$(PROGRAM)_atmega8515_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
 
 #ATmega8535
 atmega8535: TARGET := atmega8535
 atmega8535: MCU_TARGET = atmega8535
 atmega8535: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega8535: LIBS += -latmega8535
-atmega8535: AVR_FREQ ?= 16000000L
-ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega8535: LDSECTIONS = -Wl,--section-start=.text=0x1c00 -Wl,--section-start=.version=0x1ffe
+atmega8535: atmega8535/$(AVR_FREQ)/$(PROGRAM)_atmega8535_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega8535: atmega8535/$(AVR_FREQ)/$(PROGRAM)_atmega8535_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 else
 atmega8535: LDSECTIONS = -Wl,--section-start=.text=0x1e00 -Wl,--section-start=.version=0x1ffe
-endif
 atmega8535: atmega8535/$(AVR_FREQ)/$(PROGRAM)_atmega8535_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 atmega8535: atmega8535/$(AVR_FREQ)/$(PROGRAM)_atmega8535_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
-
+endif
 
 
 
