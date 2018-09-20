@@ -181,15 +181,22 @@ declare -a clock_and_baud=(
 
 
 # Start out by deleting all previous generated files
-echo -e "\x1B[7m\n\n Deleting all previous generated files \x1B[0m"
+echo -e "\x1B[7m\n\n Deleting all previous generated files and empty folders \x1B[0m"
 make clean_all
+echo find . -iname ".DS_Store" -type f -delete
+echo find . -iname "[1-9]*" -type d -empty -delete
+echo find . -iname "atmega*" -type d -empty -delete
 
 # Loop through all MCUs and parameters
 for((i=0; i < ${#mcu_and_params[@]}; i+=2));
 do
+  # Create MCU folder if it doesn't exist already
+  mkdir -p ${mcu_and_params[$i]}
   # Loop through all clock speeds and baud rates
   for((j=0; j < ${#clock_and_baud[@]}; j+=2));
   do
+     # Create F_CPU folder if it doesn't exist already
+     mkdir -p ${mcu_and_params[$i]}/${clock_and_baud[$j]}
      # Count how many builds that have been ran
      COUNTER=$(($COUNTER + 1))
      echo -e "\x1B[7m\n\n $COUNTER of $((${#mcu_and_params[@]} * ${#clock_and_baud[@]} / 4)) "
@@ -201,7 +208,5 @@ do
   done
 done
 
-# Finish up by removing all *.lst files
-echo -e "\x1B[7m\n\n Deleting all generated *.lst files \x1B[0m"
-make clean_lst
+find . -name "*.tmp.sh" -exec rm {} \;
 echo -e "\x1B[7m\n\n Done! \n\x1B[0m"
