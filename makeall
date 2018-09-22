@@ -183,30 +183,66 @@ declare -a clock_and_baud=(
 # Start out by deleting all previous generated files
 echo -e "\x1B[7m\n\n Deleting all previous generated files and empty folders \x1B[0m"
 make clean_all
-echo find . -iname ".DS_Store" -type f -delete
-echo find . -iname "[1-9]*" -type d -empty -delete
-echo find . -iname "atmega*" -type d -empty -delete
+find . -iname ".DS_Store" -type f -delete
+find . -iname "*_build_info.txt" -type f -delete
+find . -iname "[1-9]*" -type d -empty -delete
+find . -iname "atmega*" -type d -empty -delete
+
+# Create bootloaders folder if it doesn't exist already
+mkdir -p bootloaders
 
 # Loop through all MCUs and parameters
 for((i=0; i < ${#mcu_and_params[@]}; i+=2));
 do
   # Create MCU folder if it doesn't exist already
-  mkdir -p ${mcu_and_params[$i]}
+  mkdir -p bootloaders/${mcu_and_params[$i]}
+  
+  # Create header and build info file
+  echo -e "Optiboot_flash build output for ${mcu_and_params[$i]}"\
+  "\nhttps://github.com/MCUdude/optiboot_flash"\
+  "\nBuild date and time: $(date +%d.%m.%Y\ %H:%M)"\
+  "\nCompiler: $(make gcc_version)\n"\
+  "\nF_CPU:\t\tUART NUMBER:\tDESIRED BAUD:\tACTUAL BAUD:\tERROR:\tCOMPILED SIZE:\tOUTPUT FILE:"\
+  >> bootloaders/${mcu_and_params[$i]}/${mcu_and_params[$i]}_build_info.txt
+  
   # Loop through all clock speeds and baud rates
   for((j=0; j < ${#clock_and_baud[@]}; j+=2));
   do
      # Create F_CPU folder if it doesn't exist already
-     mkdir -p ${mcu_and_params[$i]}/${clock_and_baud[$j]}
+     mkdir -p bootloaders/${mcu_and_params[$i]}/${clock_and_baud[$j]}
+     
      # Count how many builds that have been ran
      COUNTER=$(($COUNTER + 1))
      echo -e "\x1B[7m\n\n $COUNTER of $((${#mcu_and_params[@]} * ${#clock_and_baud[@]} / 4)) "
+     
      # Print out current build info
      echo -e " make ${mcu_and_params[$i]} AVR_FREQ=${clock_and_baud[$j]} BAUD_RATE=${clock_and_baud[$j+1]} ${mcu_and_params[$i+1]} \x1B[0m"
-     # Build
-     make -s ${mcu_and_params[$i]} AVR_FREQ=${clock_and_baud[$j]} BAUD_RATE=${clock_and_baud[$j+1]} ${mcu_and_params[$i+1]}
+     
+     # Build hex
+     make -s ${mcu_and_params[$i]} AVR_FREQ=${clock_and_baud[$j]} BAUD_RATE=${clock_and_baud[$j+1]} ${mcu_and_params[$i+1]} | tee /dev/tty | \
+     
+     # Fill build info file
+     awk -v F_CPU="${clock_and_baud[$j]}" '
+     BEGIN { printf(F_CPU "\t") }
+     {   
+       if ($1 ~ "UART.") printf($1 "\t\t")
+       if ($4 ~ "Desired:") printf($5 "\t\t")
+       if ($6 ~ "Real:") printf($7 "\t\t")
+       if ($11 ~ "Difference:") printf($12 "%%\t")
+       if ($1 ~ /^[0-9]+$/) printf($1 " bytes\t")
+       if ($1 ~ "Output" && $2 ~ "file" && $3 "name:") 
+       {
+         sub(".*/", "", $4)
+         printf($4 "\n")
+       }
+     } ' >> bootloaders/${mcu_and_params[$i]}/${mcu_and_params[$i]}_build_info.txt
      echo -e "\n\n\x1B[7m COMPILATION SUCCESSFUL! \x1B[0m\n\n\n"
   done
+  # Add a few newlines at the end of the build info file
+  echo -e "\n" >> bootloaders/${mcu_and_params[$i]}/${mcu_and_params[$i]}_build_info.txt
 done
 
+# Delete temporary file
 find . -name "*.tmp.sh" -exec rm {} \;
+
 echo -e "\x1B[7m\n\n Done! \n\x1B[0m"
