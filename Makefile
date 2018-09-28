@@ -1025,7 +1025,7 @@ FORCE:
 baudcheck: FORCE
 	- @echo -n Using avr-gcc\ 
 	- @$(CC) -dumpversion
-	- @echo "\nUART$(UART)"
+	- @echo "\nUART = UART$(UART)\tLED_PIN = $(LED)\t LED_FLASHES = $(LED_START_FLASHES)"
 	- @echo "\x1B[1m\x1B[4m"
 	- @$(CC) $(CFLAGS) -E baudcheck.c -o baudcheck.tmp.sh
 	- @$(SH) baudcheck.tmp.sh

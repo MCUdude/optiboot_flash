@@ -202,7 +202,7 @@ do
   "\nhttps://github.com/MCUdude/optiboot_flash"\
   "\nBuild date and time: $(date +%d.%m.%Y\ %H:%M)"\
   "\nCompiler: $(make gcc_version)\n"\
-  "\nF_CPU:\t\tUART NUMBER:\tDESIRED BAUD:\tACTUAL BAUD:\tERROR:\tCOMPILED SIZE:\tOUTPUT FILE:"\
+  "\nF_CPU:\t\tUART NUMBER:\tLED PIN:\tLED FLASHES:\tDESIRED BAUD:\tACTUAL BAUD:\tERROR:\tCOMPILED SIZE:\tOUTPUT FILE:"\
   >> bootloaders/${mcu_and_params[$i]}/${mcu_and_params[$i]}_build_info.txt
   
   # Loop through all clock speeds and baud rates
@@ -225,7 +225,9 @@ do
      awk -v F_CPU="${clock_and_baud[$j]}" '
      BEGIN { printf(F_CPU "\t") }
      {   
-       if ($1 ~ "UART.") printf($1 "\t\t")
+       if ($1 ~ "UART") printf($3 "\t\t")
+       if ($4 ~ "LED_PIN") printf($6 "\t\t")
+       if ($7 ~ "LED_FLASHES") printf($9 "\t\t")
        if ($4 ~ "Desired:") printf($5 "\t\t")
        if ($6 ~ "Real:") printf($7 "\t\t")
        if ($11 ~ "Difference:") printf($12 "%%\t")
