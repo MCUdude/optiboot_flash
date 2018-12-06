@@ -1,6 +1,6 @@
 Optiboot_flash build output for atmega1280 
 https://github.com/MCUdude/optiboot_flash 
-Build date and time: 28.09.2018 18:07 
+Build date and time: 06.12.2018 23:52 
 Compiler: avr-gcc 5.4.0
  
 F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
@@ -76,7 +76,7 @@ F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COM
 
 Optiboot_flash build output for atmega1280 
 https://github.com/MCUdude/optiboot_flash 
-Build date and time: 28.09.2018 18:07 
+Build date and time: 06.12.2018 23:52 
 Compiler: avr-gcc 5.4.0
  
 F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
@@ -152,7 +152,7 @@ F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COM
 
 Optiboot_flash build output for atmega1280 
 https://github.com/MCUdude/optiboot_flash 
-Build date and time: 28.09.2018 18:07 
+Build date and time: 06.12.2018 23:52 
 Compiler: avr-gcc 5.4.0
  
 F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
@@ -228,7 +228,7 @@ F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COM
 
 Optiboot_flash build output for atmega1280 
 https://github.com/MCUdude/optiboot_flash 
-Build date and time: 28.09.2018 18:07 
+Build date and time: 06.12.2018 23:53 
 Compiler: avr-gcc 5.4.0
  
 F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:

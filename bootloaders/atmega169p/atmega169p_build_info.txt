@@ -1,6 +1,6 @@
 Optiboot_flash build output for atmega169p 
 https://github.com/MCUdude/optiboot_flash 
-Build date and time: 28.09.2018 18:01 
+Build date and time: 06.12.2018 23:46 
 Compiler: avr-gcc 5.4.0
  
 F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
