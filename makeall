@@ -78,8 +78,8 @@ declare -a mcu_and_params=(
 "atmega640"   "LED=B7 LED_START_FLASHES=2 UART=1 SUPPORT_EEPROM=1"
 "atmega640"   "LED=B7 LED_START_FLASHES=2 UART=2 SUPPORT_EEPROM=1"
 "atmega640"   "LED=B7 LED_START_FLASHES=2 UART=3 SUPPORT_EEPROM=1"
-"atmega644"   "LED=B0 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
-"atmega644"   "LED=B0 LED_START_FLASHES=2 UART=1 SUPPORT_EEPROM=1"
+"atmega644a"  "LED=B0 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
+"atmega644a"  "LED=B0 LED_START_FLASHES=2 UART=1 SUPPORT_EEPROM=1"
 "atmega644p"  "LED=B0 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
 "atmega644p"  "LED=B0 LED_START_FLASHES=2 UART=1 SUPPORT_EEPROM=1"
 "atmega649"   "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
@@ -180,16 +180,13 @@ declare -a clock_and_baud=(
 )
 
 
-# Start out by deleting all previous generated files
+# Start out by deleting all previous generated files and folders
 echo -e "\x1B[7m\n\n Deleting all previous generated files and empty folders \x1B[0m"
 make clean_all
 find . -iname ".DS_Store" -type f -delete
 find . -iname "*_build_info.txt" -type f -delete
 find . -iname "[1-9]*" -type d -empty -delete
 find . -iname "atmega*" -type d -empty -delete
-
-# Create bootloaders folder if it doesn't exist already
-mkdir -p bootloaders
 
 # Loop through all MCUs and parameters
 for((i=0; i < ${#mcu_and_params[@]}; i+=2));
@@ -208,19 +205,16 @@ do
   # Loop through all clock speeds and baud rates
   for((j=0; j < ${#clock_and_baud[@]}; j+=2));
   do
-     # Create F_CPU folder if it doesn't exist already
-     mkdir -p bootloaders/${mcu_and_params[$i]}/${clock_and_baud[$j]}
-     
      # Count how many builds that have been ran
      COUNTER=$(($COUNTER + 1))
      echo -e "\x1B[7m\n\n $COUNTER of $((${#mcu_and_params[@]} * ${#clock_and_baud[@]} / 4)) "
      
-     # Print out current build info
+     # Print out current build command
      echo -e " make ${mcu_and_params[$i]} AVR_FREQ=${clock_and_baud[$j]} BAUD_RATE=${clock_and_baud[$j+1]} ${mcu_and_params[$i+1]} \x1B[0m"
      
      # Build hex
      make -s ${mcu_and_params[$i]} AVR_FREQ=${clock_and_baud[$j]} BAUD_RATE=${clock_and_baud[$j+1]} ${mcu_and_params[$i+1]} | tee /dev/tty | \
-     
+
      # Fill build info file
      awk -v F_CPU="${clock_and_baud[$j]}" '
      BEGIN { printf(F_CPU "\t") }
@@ -238,13 +232,16 @@ do
          printf($4 "\n")
        }
      } ' >> bootloaders/${mcu_and_params[$i]}/${mcu_and_params[$i]}_build_info.txt
+     
+     # Print compilation succeeded message
      echo -e "\n\n\x1B[7m COMPILATION SUCCESSFUL! \x1B[0m\n\n\n"
   done
+  
   # Add a few newlines at the end of the build info file
   echo -e "\n" >> bootloaders/${mcu_and_params[$i]}/${mcu_and_params[$i]}_build_info.txt
 done
 
-# Delete temporary file
+# Delete temporary shell script file(s)
 find . -name "*.tmp.sh" -exec rm {} \;
 
 echo -e "\x1B[7m\n\n Done! \n\x1B[0m"

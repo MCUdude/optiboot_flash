@@ -113,7 +113,7 @@ CC         = ~/Library/Arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1
 
 # Override is only needed by avr-lib build system.
 
-override CFLAGS        = -g -Wall $(OPTIMIZE) -mmcu=$(MCU_TARGET) -DF_CPU=$(AVR_FREQ) $(DEFS)
+override CFLAGS        = -g -Wall $(OPTIMIZE) -mmcu=$(TARGET) -DF_CPU=$(AVR_FREQ) $(DEFS)
 override LDFLAGS       = $(LDSECTIONS) -Wl,--relax -nostartfiles
 #-Wl,--gc-sections
 
@@ -208,11 +208,10 @@ endif
 # options like: make atmega328p AVR_FREQ=16000000L BAUD_RATE=115200 LED=B5 LED_START_FLASHES=2 UART=0
 #-------------------------------------------------------------------------------------------------------
 
-
 #ATmega8/A
 atmega8: TARGET = atmega8
-atmega8: MCU_TARGET = atmega8
 atmega8: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega8: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega8: LDSECTIONS = -Wl,--section-start=.text=0x1c00 -Wl,--section-start=.version=0x1ffe -Wl,--gc-sections -Wl,--undefined=optiboot_version
@@ -227,12 +226,13 @@ ifeq ($(ASM_OUTPUT), 1)
 atmega8: bootloaders/atmega8/$(AVR_FREQ)/$(PROGRAM)_atmega8_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
 endif
 endif
+
 atmega8a: atmega8
 
 #ATmega16/A
 atmega16: TARGET = atmega16
-atmega16: MCU_TARGET = atmega16
 atmega16: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega16: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq ($(call ifdef_any_of,BIGBOOT SUPPORT_EEPROM),)
 atmega16: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
@@ -251,8 +251,8 @@ atmega16a: atmega16
 
 #ATmega32/A
 atmega32: TARGET = atmega32
-atmega32: MCU_TARGET = atmega32
 atmega32: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega32: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega32: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
@@ -271,8 +271,8 @@ atmega32a: atmega32
 
 #ATmega64/A
 atmega64: TARGET = atmega64
-atmega64: MCU_TARGET = atmega64
 atmega64: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega64: maketargetdir
 atmega64: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
 # Change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
@@ -290,8 +290,8 @@ atmega64a: atmega64
 
 #ATmega88/A
 atmega88: TARGET = atmega88
-atmega88: MCU_TARGET = atmega88
 atmega88: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega88: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega88: LDSECTIONS = -Wl,--section-start=.text=0x1c00 -Wl,--section-start=.version=0x1ffe -Wl,--gc-sections -Wl,--undefined=optiboot_version
@@ -310,8 +310,8 @@ atmega88a: atmega88
 
 #ATmega88P/PA
 atmega88p: TARGET = atmega88p
-atmega88p: MCU_TARGET = atmega88p
 atmega88p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega88p: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega88p: LDSECTIONS = -Wl,--section-start=.text=0x1c00 -Wl,--section-start=.version=0x1ffe -Wl,--gc-sections -Wl,--undefined=optiboot_version
@@ -330,8 +330,8 @@ atmega88pa: atmega88p
 
 #ATmega88PB
 atmega88pb: TARGET = atmega88pb
-atmega88pb: MCU_TARGET = atmega88pb
 atmega88pb: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega88pb: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega88pb: LDSECTIONS = -Wl,--section-start=.text=0x1c00 -Wl,--section-start=.version=0x1ffe -Wl,--gc-sections -Wl,--undefined=optiboot_version
@@ -349,8 +349,8 @@ endif
 
 #ATmega128/A
 atmega128: TARGET = atmega128
-atmega128: MCU_TARGET = atmega128
 atmega128: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega128: maketargetdir
 atmega128: LDSECTIONS = -Wl,--section-start=.text=0x1fc00 -Wl,--section-start=.version=0x1fffe
 # Change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
@@ -368,8 +368,8 @@ atmega128a: atmega128
 
 #ATmega162
 atmega162: TARGET = atmega162
-atmega162: MCU_TARGET = atmega162
 atmega162: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega162: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega162: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
@@ -387,8 +387,8 @@ endif
 
 #ATmega164/A
 atmega164a: TARGET = atmega164a
-atmega164a: MCU_TARGET = atmega164a
 atmega164a: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega164a: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega164a: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
@@ -407,8 +407,8 @@ atmega164: atmega164a
 
 #ATmega164P/PA
 atmega164p: TARGET = atmega164p
-atmega164p: MCU_TARGET = atmega164p
 atmega164p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega164p: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega164p: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
@@ -427,8 +427,8 @@ atmega164pa: atmega164p
 
 #ATmega168/A
 atmega168: TARGET = atmega168
-atmega168: MCU_TARGET = atmega168
 atmega168: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega168: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega168: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
@@ -447,8 +447,8 @@ atmega168a: atmega168
 
 #ATmega168P/PA
 atmega168p: TARGET = atmega168p
-atmega168p: MCU_TARGET = atmega168p
 atmega168p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega168p: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega168p: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
@@ -467,8 +467,8 @@ atmega168pa: atmega168p
 
 #ATmega168PB
 atmega168pb: TARGET = atmega168pb
-atmega168pb: MCU_TARGET = atmega168pb
 atmega168pb: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega168pb: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega168pb: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
@@ -486,8 +486,8 @@ endif
 
 #ATmega169/A
 atmega169: TARGET = atmega169
-atmega169: MCU_TARGET = atmega169
 atmega169: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega169: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega169: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
@@ -506,8 +506,8 @@ atmega169a: atmega169
 
 #ATmega169P/PA
 atmega169p: TARGET = atmega169p
-atmega169p: MCU_TARGET = atmega169p
 atmega169p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega169p: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega169p: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
@@ -526,8 +526,8 @@ atmega169pa: atmega169
 
 #ATmega324A
 atmega324a: TARGET = atmega324a
-atmega324a: MCU_TARGET = atmega324a
 atmega324a: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega324a: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega324a: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
@@ -546,8 +546,8 @@ atmega324: atmega324a
 
 #ATmega324P
 atmega324p: TARGET = atmega324p
-atmega324p: MCU_TARGET = atmega324p
 atmega324p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega324p: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega324p: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
@@ -565,8 +565,8 @@ endif
 
 #ATmega324PA
 atmega324pa: TARGET = atmega324pa
-atmega324pa: MCU_TARGET = atmega324pa
 atmega324pa: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega324pa: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega324pa: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
@@ -584,8 +584,8 @@ endif
 
 #ATmega324PB
 atmega324pb: TARGET = atmega324pb
-atmega324pb: MCU_TARGET = atmega324pb
 atmega324pb: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega324pb: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega324pb: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
@@ -603,8 +603,8 @@ endif
 
 #ATmega328/A
 atmega328: TARGET = atmega328
-atmega328: MCU_TARGET = atmega328
 atmega328: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega328: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega328: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
@@ -623,8 +623,8 @@ atmega328a: atmega328
 
 #ATmega328P/PA
 atmega328p: TARGET = atmega328p
-atmega328p: MCU_TARGET = atmega328p
 atmega328p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega328p: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega328p: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
@@ -643,8 +643,8 @@ atmega328pa: atmega328p
 
 #ATmega328PB
 atmega328pb: TARGET = atmega328pb
-atmega328pb: MCU_TARGET = atmega328pb
 atmega328pb: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega328pb: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega328pb: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
@@ -662,8 +662,8 @@ endif
 
 #ATmega329/A
 atmega329: TARGET = atmega329
-atmega329: MCU_TARGET = atmega329
 atmega329: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega329: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega329: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
@@ -682,8 +682,8 @@ atmega329a: atmega329
 
 #ATmega329P/PA
 atmega329p: TARGET = atmega329p
-atmega329p: MCU_TARGET = atmega329p
 atmega329p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega329p: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega329p: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
@@ -702,8 +702,8 @@ atmega329pa: atmega329p
 
 #ATmega640
 atmega640: TARGET = atmega640
-atmega640: MCU_TARGET = atmega640
 atmega640: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega640: maketargetdir
 atmega640: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
 # Change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
@@ -719,28 +719,28 @@ endif
 endif
 
 #ATmega644/A
-atmega644: TARGET = atmega644a
-atmega644: MCU_TARGET = atmega644a
-atmega644: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
-atmega644: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
+atmega644a: TARGET = atmega644a
+atmega644a: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega644a: maketargetdir
+atmega644a: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
 # Change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
-atmega644: bootloaders/atmega644/$(AVR_FREQ)/$(PROGRAM)_atmega644_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+atmega644a: bootloaders/atmega644a/$(AVR_FREQ)/$(PROGRAM)_atmega644a_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
 ifeq ($(ASM_OUTPUT), 1)
-atmega644: bootloaders/atmega644/$(AVR_FREQ)/$(PROGRAM)_atmega644_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+atmega644a: bootloaders/atmega644a/$(AVR_FREQ)/$(PROGRAM)_atmega644a_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
 endif
 else
-atmega644: bootloaders/atmega644/$(AVR_FREQ)/$(PROGRAM)_atmega644_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
+atmega644a: bootloaders/atmega644a/$(AVR_FREQ)/$(PROGRAM)_atmega644a_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
 ifeq ($(ASM_OUTPUT), 1)
-atmega644: bootloaders/atmega644/$(AVR_FREQ)/$(PROGRAM)_atmega644_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+atmega644a: bootloaders/atmega644a/$(AVR_FREQ)/$(PROGRAM)_atmega644a_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
 endif
 endif
-atmega644a: atmega644
+atmega644: atmega644a
 
 #ATmega644P/PA
 atmega644p: TARGET = atmega644p
-atmega644p: MCU_TARGET = atmega644p
 atmega644p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega644p: maketargetdir
 atmega644p: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
 # Change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
@@ -758,8 +758,8 @@ atmega644pa: atmega644p
 
 #ATmega649
 atmega649: TARGET = atmega649
-atmega649: MCU_TARGET = atmega649
 atmega649: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega649: maketargetdir
 atmega649: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
 # Change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
@@ -776,8 +776,8 @@ endif
 
 #ATmega649P
 atmega649p: TARGET = atmega649p
-atmega649p: MCU_TARGET = atmega649p
 atmega649p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega649p: maketargetdir
 atmega649p: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
 # Change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
@@ -794,8 +794,8 @@ endif
 
 #ATmega1280
 atmega1280: TARGET = atmega1280
-atmega1280: MCU_TARGET = atmega1280
 atmega1280: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega1280: maketargetdir
 atmega1280: LDSECTIONS = -Wl,--section-start=.text=0x1fc00 -Wl,--section-start=.version=0x1fffe
 # Change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
@@ -812,8 +812,8 @@ endif
 
 #ATmega1281
 atmega1281: TARGET = atmega1281
-atmega1281: MCU_TARGET = atmega1281
 atmega1281: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega1281: maketargetdir
 atmega1281: LDSECTIONS = -Wl,--section-start=.text=0x1fc00 -Wl,--section-start=.version=0x1fffe
 # Change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
@@ -830,8 +830,8 @@ endif
 
 #ATmega1284
 atmega1284: TARGET = atmega1284
-atmega1284: MCU_TARGET = atmega1284
 atmega1284: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega1284: maketargetdir
 atmega1284: LDSECTIONS = -Wl,--section-start=.text=0x1fc00 -Wl,--section-start=.version=0x1fffe
 # Change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
@@ -848,8 +848,8 @@ endif
 
 #ATmega1284P
 atmega1284p: TARGET = atmega1284p
-atmega1284p: MCU_TARGET = atmega1284p
 atmega1284p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega1284p: maketargetdir
 atmega1284p: LDSECTIONS = -Wl,--section-start=.text=0x1fc00 -Wl,--section-start=.version=0x1fffe
 # Change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
@@ -866,8 +866,8 @@ endif
 
 #ATmega2560
 atmega2560: TARGET = atmega2560
-atmega2560: MCU_TARGET = atmega2560
 atmega2560: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega2560: maketargetdir
 atmega2560: LDSECTIONS = -Wl,--section-start=.text=0x3fc00 -Wl,--section-start=.version=0x3fffe
 # Change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
@@ -884,8 +884,8 @@ endif
 
 #ATmega2561
 atmega2561: TARGET = atmega2561
-atmega2561: MCU_TARGET = atmega2561
 atmega2561: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega2561: maketargetdir
 atmega2561: LDSECTIONS = -Wl,--section-start=.text=0x3fc00 -Wl,--section-start=.version=0x3fffe
 # Change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
@@ -902,8 +902,8 @@ endif
 
 #ATmega3290
 atmega3290: TARGET = atmega3290
-atmega3290: MCU_TARGET = atmega3290
 atmega3290: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega3290: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega3290: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
@@ -921,8 +921,8 @@ endif
 
 #ATmega3290P/PA
 atmega3290p: TARGET = atmega3290p
-atmega3290p: MCU_TARGET = atmega3290p
 atmega3290p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega3290p: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega3290p: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
@@ -941,8 +941,8 @@ atmega3290pa: atmega3290p
 
 #ATmega6490
 atmega6490: TARGET = atmega6490
-atmega6490: MCU_TARGET = atmega6490
 atmega6490: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega6490: maketargetdir
 atmega6490: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
 # Change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
@@ -959,8 +959,8 @@ endif
 
 #ATmega6490P
 atmega6490p: TARGET = atmega6490p
-atmega6490p: MCU_TARGET = atmega6490p
 atmega6490p: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega6490p: maketargetdir
 atmega6490p: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
 # Change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
@@ -977,8 +977,8 @@ endif
 
 #ATmega8515
 atmega8515: TARGET = atmega8515
-atmega8515: MCU_TARGET = atmega8515
 atmega8515: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega8515: maketargetdir
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 # Move bootloader location + change name if eeprom support is preset
 atmega8515: LDSECTIONS = -Wl,--section-start=.text=0x1c00 -Wl,--section-start=.version=0x1ffe
@@ -996,8 +996,8 @@ endif
 
 #ATmega8535
 atmega8535: TARGET = atmega8535
-atmega8535: MCU_TARGET = atmega8535
 atmega8535: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega8535: maketargetdir
 # Move bootloader location + change name if eeprom support is preset
 ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
 atmega8535: LDSECTIONS = -Wl,--section-start=.text=0x1c00 -Wl,--section-start=.version=0x1ffe
@@ -1031,12 +1031,13 @@ baudcheck: FORCE
 	- @$(SH) baudcheck.tmp.sh
 	- @echo "\x1B[0m"
 
-
-
 %.elf: $(OBJ) baudcheck $(dummy) 
 	- $(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< $(LIBS)
 	- @echo
 	- $(SIZE) $@
+	
+maketargetdir:
+	mkdir -p bootloaders/$(TARGET)/$(AVR_FREQ)
 
 clean_all:	
 	find . -name "*.o" -exec rm {} \;
