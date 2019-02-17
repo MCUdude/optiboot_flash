@@ -1,6 +1,6 @@
 Optiboot_flash build output for atmega324a 
 https://github.com/MCUdude/optiboot_flash 
-Build date and time: 17.02.2019 22:31 
+Build date and time: 18.02.2019 00:12 
 Compiler: avr-gcc 5.4.0
  
 F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
@@ -84,7 +84,7 @@ F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COM
 
 Optiboot_flash build output for atmega324a 
 https://github.com/MCUdude/optiboot_flash 
-Build date and time: 17.02.2019 22:31 
+Build date and time: 18.02.2019 00:12 
 Compiler: avr-gcc 5.4.0
  
 F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
@@ -164,21 +164,5 @@ F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COM
 1843200L	UART1		B0		2		19200		19200		0.0%	460 bytes	optiboot_flash_atmega324a_UART1_19200_1843200L.hex
 1843200L	UART1		B0		2		9600		9600		0.0%	460 bytes	optiboot_flash_atmega324a_UART1_9600_1843200L.hex
 1000000L	UART1		B0		2		9600		9615		0.1%	460 bytes	optiboot_flash_atmega324a_UART1_9600_1000000L.hex
-
-
-Optiboot_flash build output for atmega324a 
-https://github.com/MCUdude/optiboot_flash 
-Build date and time: 17.02.2019 23:00 
-Compiler: avr-gcc 5.4.0
- 
-F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
-
-
-Optiboot_flash build output for atmega324a 
-https://github.com/MCUdude/optiboot_flash 
-Build date and time: 17.02.2019 23:00 
-Compiler: avr-gcc 5.4.0
- 
-F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
 
 

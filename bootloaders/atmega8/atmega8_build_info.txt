@@ -1,6 +1,6 @@
 Optiboot_flash build output for atmega8 
 https://github.com/MCUdude/optiboot_flash 
-Build date and time: 17.02.2019 23:00 
+Build date and time: 18.02.2019 00:06 
 Compiler: avr-gcc 5.4.0
  
 F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
