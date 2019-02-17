@@ -237,7 +237,7 @@ then
   echo -e "\n\nDeleting all previous generated files and empty folders"
   make clean_all
   find . -iname ".DS_Store" -type f -delete
-  find . -iname "*_build_info*.txt" -type f -delete
+  find . -iname "*_build_info.txt" -type f -delete
   find . -iname "[1-9]*" -type d -empty -delete
   find . -iname "atmega*" -type d -empty -delete
   echo -e "\n\n"
@@ -249,78 +249,92 @@ do
   # Create MCU folder if it doesn't exist already
   mkdir -p bootloaders/${mcu_and_params[$i]}
   
-  # Create header and build info file
-  echo -e "Optiboot_flash build output for ${mcu_and_params[$i]}"\
-  "\nhttps://github.com/MCUdude/optiboot_flash"\
-  "\nBuild date and time: $(date +%d.%m.%Y\ %H:%M)"\
-  "\nCompiler: $(make gcc_version)\n"\
-  "\nF_CPU:\t\tUART NUMBER:\tLED PIN:\tLED FLASHES:\tDESIRED BAUD:\tACTUAL BAUD:\tERROR:\tCOMPILED SIZE:\tOUTPUT FILE:"\
-  >> bootloaders/${mcu_and_params[$i]}/${mcu_and_params[$i]}_build_info.txt
+  # Print build header if one or more builds is ran
+  build_info_header_printed="false"
   
   # Loop through all clock speeds and baud rates
   for((j=0; j < ${#clock_and_baud[@]}; j+=2));
   do
-     # Count how many builds that have been ran
-     COUNTER=$(($COUNTER + 1))
-     echo -e "\x1B[7m\n\n $COUNTER of $((${#mcu_and_params[@]} * ${#clock_and_baud[@]} / 4)) "
+    # Count how many builds that have been ran
+    COUNTER=$(($COUNTER + 1))
+    echo -e "\x1B[7m\n\n $COUNTER of $((${#mcu_and_params[@]} * ${#clock_and_baud[@]} / 4)) "
      
      # Check if hex file already exists
-     if [[ $overwrite_files = false || $delete_all_files = false ]]
+     if [[ $overwrite_files = false && $delete_all_files = false ]]
      then
        bootloader_file=(bootloaders/${mcu_and_params[$i]}/${clock_and_baud[$j]}/optiboot_flash_${mcu_and_params[$i]}_$(echo ${mcu_and_params[$i+1]} | awk -F'=| ' '{printf("UART" $6)}')_${clock_and_baud[$j+1]}_${clock_and_baud[$j]}*)
        if [ -e "${bootloader_file}" ];
        then
          file_exists=true
+         build_info_header_printed="N/A"
        else
          file_exists=false
+         if [ $build_info_header_printed == "N/A" ]
+         then
+           build_info_header_printed="false"
+         fi  
        fi
      fi
      
-     # Skip, build or overwrite build
-     if [[ $file_exists = false || $delete_all_files = true || $overwrite_files = true ]]
-     then    
-       # Print out current build command
-       echo -e " make ${mcu_and_params[$i]} AVR_FREQ=${clock_and_baud[$j]} BAUD_RATE=${clock_and_baud[$j+1]} ${mcu_and_params[$i+1]} \x1B[0m"
+    # Make sure the build info header is printed only once
+    if [ $build_info_header_printed = "false" ]
+    then
+      # Create header and build info file once
+      echo -e "Optiboot_flash build output for ${mcu_and_params[$i]}"\
+      "\nhttps://github.com/MCUdude/optiboot_flash"\
+      "\nBuild date and time: $(date +%d.%m.%Y\ %H:%M)"\
+      "\nCompiler: $(make gcc_version)\n"\
+      "\nF_CPU:\t\tUART NUMBER:\tLED PIN:\tLED FLASHES:\tDESIRED BAUD:\tACTUAL BAUD:\tERROR:\tCOMPILED SIZE:\tOUTPUT FILE:"\
+      >> bootloaders/${mcu_and_params[$i]}/${mcu_and_params[$i]}_build_info.txt
+      build_info_header_printed="true"
+    fi
      
-       # Build hex and pipe output to stdout and temp.txt
-       make -s ${mcu_and_params[$i]} AVR_FREQ=${clock_and_baud[$j]} BAUD_RATE=${clock_and_baud[$j+1]} ${mcu_and_params[$i+1]} | tee /dev/tty | tee temp.txt | \
-          
-       # Fill build info file
-       awk -v F_CPU="${clock_and_baud[$j]}" '
-       BEGIN { printf(F_CPU "\t") }
-       {   
-         if ($1 ~ "UART") printf($3 "\t\t")
-         if ($4 ~ "LED_PIN") printf($6 "\t\t")
-         if ($7 ~ "LED_FLASHES") printf($9 "\t\t")
-         if ($4 ~ "Desired:") printf($5 "\t\t")
-         if ($6 ~ "Real:") printf($7 "\t\t")
-         if ($11 ~ "Difference:") printf($12 "%%\t")
-         if ($1 ~ /^[0-9]+$/) printf($1 " bytes\t")
-         if ($1 ~ "Output" && $2 ~ "file" && $3 "name:") 
-         {
-           sub(".*/", "", $4)
-           printf($4 "\n")
-         }
-       } ' >> bootloaders/${mcu_and_params[$i]}/${mcu_and_params[$i]}_build_info.txt
-       
-       # Check if hex file exist and status message
-       bootloader_file=(bootloaders/${mcu_and_params[$i]}/${clock_and_baud[$j]}/optiboot_flash_${mcu_and_params[$i]}_$(echo ${mcu_and_params[$i+1]} | awk -F'=| ' '{printf("UART" $6)}')_${clock_and_baud[$j+1]}_${clock_and_baud[$j]}*)
-       if [ -e "${bootloader_file}" ];
-       then
-         echo -e "\n\n\x1B[7m COMPILATION SUCCESSFUL! \x1B[0m\n\n\n"
-       else
-         echo -e "\n\n\x1B[41m COMPILATION FAILED! \x1B[0m\n\n\n"
-         if [ $abort_on_fail = true ]
-         then
-           exit 
-         fi
-       fi
      
-     # Hex file already exist and we're not overwriting     
-     else
-       echo $bootloader_file
-       echo -e "Hex file already exists. Skipping build.."
-     fi      
+    # Skip, build or overwrite build
+    if [[ $file_exists = false || $delete_all_files = true || $overwrite_files = true ]]
+    then    
+      # Print out current build command
+      echo -e " make ${mcu_and_params[$i]} AVR_FREQ=${clock_and_baud[$j]} BAUD_RATE=${clock_and_baud[$j+1]} ${mcu_and_params[$i+1]} \x1B[0m"
+    
+      # Build hex and pipe output to stdout and temp.txt
+      make -s ${mcu_and_params[$i]} AVR_FREQ=${clock_and_baud[$j]} BAUD_RATE=${clock_and_baud[$j+1]} ${mcu_and_params[$i+1]} | tee /dev/tty | tee temp.txt | \
+         
+      # Fill build info file
+      awk -v F_CPU="${clock_and_baud[$j]}" '
+      BEGIN { printf(F_CPU "\t") }
+      {   
+        if ($1 ~ "UART") printf($3 "\t\t")
+        if ($4 ~ "LED_PIN") printf($6 "\t\t")
+        if ($7 ~ "LED_FLASHES") printf($9 "\t\t")
+        if ($4 ~ "Desired:") printf($5 "\t\t")
+        if ($6 ~ "Real:") printf($7 "\t\t")
+        if ($11 ~ "Difference:") printf($12 "%%\t")
+        if ($1 ~ /^[0-9]+$/) printf($1 " bytes\t")
+        if ($1 ~ "Output" && $2 ~ "file" && $3 "name:") 
+        {
+          sub(".*/", "", $4)
+          printf($4 "\n")
+        }
+      } ' >> bootloaders/${mcu_and_params[$i]}/${mcu_and_params[$i]}_build_info.txt
+      
+      # Check if hex file exist and status message
+      bootloader_file=(bootloaders/${mcu_and_params[$i]}/${clock_and_baud[$j]}/optiboot_flash_${mcu_and_params[$i]}_$(echo ${mcu_and_params[$i+1]} | awk -F'=| ' '{printf("UART" $6)}')_${clock_and_baud[$j+1]}_${clock_and_baud[$j]}*)
+      if [ -e "${bootloader_file}" ];
+      then
+        echo -e "\n\n\x1B[7m COMPILATION SUCCESSFUL! \x1B[0m\n\n\n"
+      else
+        echo -e "\n\n\x1B[41m COMPILATION FAILED! \x1B[0m\n\n\n"
+        if [ $abort_on_fail = true ]
+        then
+          exit 
+        fi
+      fi
+     
+    # Hex file already exist and we're not overwriting     
+    else
+      echo $bootloader_file
+      echo -e "Hex file already exists. Skipping build.."
+    fi      
   done
   
   # Add a few newlines at the end of the build info file
