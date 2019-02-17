@@ -1,9 +1,17 @@
 Optiboot_flash build output for atmega2560 
 https://github.com/MCUdude/optiboot_flash 
-Build date and time: 06.12.2018 23:54 
+Build date and time: 17.02.2019 22:40 
 Compiler: avr-gcc 5.4.0
  
 F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
+24000000L	UART0		B7		2		1000000		1000000		0.0%	632 bytes	optiboot_flash_atmega2560_UART0_1000000_24000000L_eeprom_support.hex
+24000000L	UART0		B7		2		500000		500000		0.0%	632 bytes	optiboot_flash_atmega2560_UART0_500000_24000000L_eeprom_support.hex
+24000000L	UART0		B7		2		250000		250000		0.0%	634 bytes	optiboot_flash_atmega2560_UART0_250000_24000000L_eeprom_support.hex
+24000000L	UART0		B7		2		230400		230769		0.1%	634 bytes	optiboot_flash_atmega2560_UART0_230400_24000000L_eeprom_support.hex
+24000000L	UART0		B7		2		115200		115384		0.1%	634 bytes	optiboot_flash_atmega2560_UART0_115200_24000000L_eeprom_support.hex
+24000000L	UART0		B7		2		57600		57692		0.1%	634 bytes	optiboot_flash_atmega2560_UART0_57600_24000000L_eeprom_support.hex
+24000000L	UART0		B7		2		38400		38461		0.1%	634 bytes	optiboot_flash_atmega2560_UART0_38400_24000000L_eeprom_support.hex
+24000000L	UART0		B7		2		19200		19230		0.1%	634 bytes	optiboot_flash_atmega2560_UART0_19200_24000000L_eeprom_support.hex
 20000000L	UART0		B7		2		500000		500000		0.0%	634 bytes	optiboot_flash_atmega2560_UART0_500000_20000000L_eeprom_support.hex
 20000000L	UART0		B7		2		250000		250000		0.0%	634 bytes	optiboot_flash_atmega2560_UART0_250000_20000000L_eeprom_support.hex
 20000000L	UART0		B7		2		115200		113636		-1.3%	634 bytes	optiboot_flash_atmega2560_UART0_115200_20000000L_eeprom_support.hex
@@ -76,10 +84,18 @@ F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COM
 
 Optiboot_flash build output for atmega2560 
 https://github.com/MCUdude/optiboot_flash 
-Build date and time: 06.12.2018 23:54 
+Build date and time: 17.02.2019 22:40 
 Compiler: avr-gcc 5.4.0
  
 F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
+24000000L	UART1		B7		2		1000000		1000000		0.0%	632 bytes	optiboot_flash_atmega2560_UART1_1000000_24000000L_eeprom_support.hex
+24000000L	UART1		B7		2		500000		500000		0.0%	632 bytes	optiboot_flash_atmega2560_UART1_500000_24000000L_eeprom_support.hex
+24000000L	UART1		B7		2		250000		250000		0.0%	634 bytes	optiboot_flash_atmega2560_UART1_250000_24000000L_eeprom_support.hex
+24000000L	UART1		B7		2		230400		230769		0.1%	634 bytes	optiboot_flash_atmega2560_UART1_230400_24000000L_eeprom_support.hex
+24000000L	UART1		B7		2		115200		115384		0.1%	634 bytes	optiboot_flash_atmega2560_UART1_115200_24000000L_eeprom_support.hex
+24000000L	UART1		B7		2		57600		57692		0.1%	634 bytes	optiboot_flash_atmega2560_UART1_57600_24000000L_eeprom_support.hex
+24000000L	UART1		B7		2		38400		38461		0.1%	634 bytes	optiboot_flash_atmega2560_UART1_38400_24000000L_eeprom_support.hex
+24000000L	UART1		B7		2		19200		19230		0.1%	634 bytes	optiboot_flash_atmega2560_UART1_19200_24000000L_eeprom_support.hex
 20000000L	UART1		B7		2		500000		500000		0.0%	634 bytes	optiboot_flash_atmega2560_UART1_500000_20000000L_eeprom_support.hex
 20000000L	UART1		B7		2		250000		250000		0.0%	634 bytes	optiboot_flash_atmega2560_UART1_250000_20000000L_eeprom_support.hex
 20000000L	UART1		B7		2		115200		113636		-1.3%	634 bytes	optiboot_flash_atmega2560_UART1_115200_20000000L_eeprom_support.hex
@@ -152,10 +168,18 @@ F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COM
 
 Optiboot_flash build output for atmega2560 
 https://github.com/MCUdude/optiboot_flash 
-Build date and time: 06.12.2018 23:55 
+Build date and time: 17.02.2019 22:40 
 Compiler: avr-gcc 5.4.0
  
 F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
+24000000L	UART2		B7		2		1000000		1000000		0.0%	632 bytes	optiboot_flash_atmega2560_UART2_1000000_24000000L_eeprom_support.hex
+24000000L	UART2		B7		2		500000		500000		0.0%	632 bytes	optiboot_flash_atmega2560_UART2_500000_24000000L_eeprom_support.hex
+24000000L	UART2		B7		2		250000		250000		0.0%	634 bytes	optiboot_flash_atmega2560_UART2_250000_24000000L_eeprom_support.hex
+24000000L	UART2		B7		2		230400		230769		0.1%	634 bytes	optiboot_flash_atmega2560_UART2_230400_24000000L_eeprom_support.hex
+24000000L	UART2		B7		2		115200		115384		0.1%	634 bytes	optiboot_flash_atmega2560_UART2_115200_24000000L_eeprom_support.hex
+24000000L	UART2		B7		2		57600		57692		0.1%	634 bytes	optiboot_flash_atmega2560_UART2_57600_24000000L_eeprom_support.hex
+24000000L	UART2		B7		2		38400		38461		0.1%	634 bytes	optiboot_flash_atmega2560_UART2_38400_24000000L_eeprom_support.hex
+24000000L	UART2		B7		2		19200		19230		0.1%	634 bytes	optiboot_flash_atmega2560_UART2_19200_24000000L_eeprom_support.hex
 20000000L	UART2		B7		2		500000		500000		0.0%	634 bytes	optiboot_flash_atmega2560_UART2_500000_20000000L_eeprom_support.hex
 20000000L	UART2		B7		2		250000		250000		0.0%	634 bytes	optiboot_flash_atmega2560_UART2_250000_20000000L_eeprom_support.hex
 20000000L	UART2		B7		2		115200		113636		-1.3%	634 bytes	optiboot_flash_atmega2560_UART2_115200_20000000L_eeprom_support.hex
@@ -228,10 +252,18 @@ F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COM
 
 Optiboot_flash build output for atmega2560 
 https://github.com/MCUdude/optiboot_flash 
-Build date and time: 06.12.2018 23:55 
+Build date and time: 17.02.2019 22:41 
 Compiler: avr-gcc 5.4.0
  
 F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
+24000000L	UART3		B7		2		1000000		1000000		0.0%	632 bytes	optiboot_flash_atmega2560_UART3_1000000_24000000L_eeprom_support.hex
+24000000L	UART3		B7		2		500000		500000		0.0%	632 bytes	optiboot_flash_atmega2560_UART3_500000_24000000L_eeprom_support.hex
+24000000L	UART3		B7		2		250000		250000		0.0%	634 bytes	optiboot_flash_atmega2560_UART3_250000_24000000L_eeprom_support.hex
+24000000L	UART3		B7		2		230400		230769		0.1%	634 bytes	optiboot_flash_atmega2560_UART3_230400_24000000L_eeprom_support.hex
+24000000L	UART3		B7		2		115200		115384		0.1%	634 bytes	optiboot_flash_atmega2560_UART3_115200_24000000L_eeprom_support.hex
+24000000L	UART3		B7		2		57600		57692		0.1%	634 bytes	optiboot_flash_atmega2560_UART3_57600_24000000L_eeprom_support.hex
+24000000L	UART3		B7		2		38400		38461		0.1%	634 bytes	optiboot_flash_atmega2560_UART3_38400_24000000L_eeprom_support.hex
+24000000L	UART3		B7		2		19200		19230		0.1%	634 bytes	optiboot_flash_atmega2560_UART3_19200_24000000L_eeprom_support.hex
 20000000L	UART3		B7		2		500000		500000		0.0%	634 bytes	optiboot_flash_atmega2560_UART3_500000_20000000L_eeprom_support.hex
 20000000L	UART3		B7		2		250000		250000		0.0%	634 bytes	optiboot_flash_atmega2560_UART3_250000_20000000L_eeprom_support.hex
 20000000L	UART3		B7		2		115200		113636		-1.3%	634 bytes	optiboot_flash_atmega2560_UART3_115200_20000000L_eeprom_support.hex
@@ -300,5 +332,37 @@ F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COM
 1843200L	UART3		B7		2		19200		19200		0.0%	634 bytes	optiboot_flash_atmega2560_UART3_19200_1843200L_eeprom_support.hex
 1843200L	UART3		B7		2		9600		9600		0.0%	634 bytes	optiboot_flash_atmega2560_UART3_9600_1843200L_eeprom_support.hex
 1000000L	UART3		B7		2		9600		9615		0.1%	634 bytes	optiboot_flash_atmega2560_UART3_9600_1000000L_eeprom_support.hex
+
+
+Optiboot_flash build output for atmega2560 
+https://github.com/MCUdude/optiboot_flash 
+Build date and time: 17.02.2019 23:01 
+Compiler: avr-gcc 5.4.0
+ 
+F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
+
+
+Optiboot_flash build output for atmega2560 
+https://github.com/MCUdude/optiboot_flash 
+Build date and time: 17.02.2019 23:01 
+Compiler: avr-gcc 5.4.0
+ 
+F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
+
+
+Optiboot_flash build output for atmega2560 
+https://github.com/MCUdude/optiboot_flash 
+Build date and time: 17.02.2019 23:01 
+Compiler: avr-gcc 5.4.0
+ 
+F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
+
+
+Optiboot_flash build output for atmega2560 
+https://github.com/MCUdude/optiboot_flash 
+Build date and time: 17.02.2019 23:01 
+Compiler: avr-gcc 5.4.0
+ 
+F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
 
 
