@@ -26,7 +26,7 @@ This repository contains a bunch of precompiled hex file with a variety of clock
 
 |             | 1000000 | 500000 | 250000 | 230400 | 115200 | 57600 | 38400 | 19200 | 9600 |
 |-------------|---------|--------|--------|--------|--------|-------|-------|-------|------|
-| 20 MHz      |  X      |  X     |  X     |  X     |  X     |  X    |  X    |  X    |      |
+| 24 MHz      |  X      |  X     |  X     |  X     |  X     |  X    |  X    |  X    |      |
 | 20 MHz      |         |  X     |  X     |        |  X     |       |       |  X    |      |
 | 18.4320 MHz |         |        |        |  X     |  X     |  X    |  X    |  X    |  X   |
 | 16 MHz      |  X      |  X     |  X     |        |  X     |       |  X    |  X    |  X   |
