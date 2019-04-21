@@ -14,6 +14,7 @@ This repository contains a total of 5168 precompiled hex built for 42 different 
 ## Supported devices
 * [ATmega640, ATmega1280, ATmega2560](https://github.com/MCUdude/MegaCore)
 * [ATmega64, ATmega128, ATmega1281, ATmega2561](https://github.com/MCUdude/MegaCore)
+* AT90CAN32, AT90CAN64, AT90CAN128,
 * [ATmega8535, ATmega16, ATmega32, ATmega164A/P, ATmega324A/P/PA/PB, ATmega644/P, ATmega1284/P](https://github.com/MCUdude/MightyCore)
 * [ATmega8515, ATmega162](https://github.com/MCUdude/MajorCore)
 * [ATmega8, ATmega88/P/PB, ATmega168/P/PB, ATmega328/P/PB](https://github.com/MCUdude/MiniCore)
@@ -45,12 +46,12 @@ This repository contains a bunch of precompiled hex file with a variety of clock
 ## Using different UARTs
 The table below shows the available serial ports for the corresponding microcontroller. This repository contains precompiled hex files if you want to use other serial ports than UART0.
 
-|                                                                                                           | UART0 | UART1 | UART2 | UART3 |
-|-----------------------------------------------------------------------------------------------------------|-------|-------|-------|-------|
-| ATmega8/88/168/328 <br/> ATmega8515 <br/> ATmega8535/16/32  <br/> ATmega169/329/649  <br/>ATmega3290/6490 | X     |       |       |       |
-| ATmega162 <br/> ATmega328PB <br/> ATmega164/324/644/1284 <br/> ATmega64/128 <br/> ATmega1281/2561         | X     | X     |       |       |
-| ATmega324PB                                                                                               | X     | X     | X     |       |
-| ATmega640/1280/2560                                                                                       | X     | X     | X     | X     |
+|                                                                                                                          | UART0 | UART1 | UART2 | UART3 |
+|--------------------------------------------------------------------------------------------------------------------------|-------|-------|-------|-------|
+| ATmega8/88/168/328 <br/> ATmega8515 <br/> ATmega8535/16/32  <br/> ATmega169/329/649  <br/>ATmega3290/6490                | X     |       |       |       |
+| ATmega162 <br/> ATmega328PB <br/> ATmega164/324/644/1284 <br/> ATmega64/128 <br/> AT90CAN32/64/128 <br/> ATmega1281/2561 | X     | X     |       |       |
+| ATmega324PB                                                                                                              | X     | X     | X     |       |
+| ATmega640/1280/2560                                                                                                      | X     | X     | X     | X     |
 
 
 ## Building from source
