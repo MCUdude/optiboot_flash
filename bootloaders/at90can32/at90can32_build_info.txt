@@ -1,13 +1,7 @@
 Optiboot_flash build output for at90can32 
 https://github.com/MCUdude/optiboot_flash 
-Build date and time: 21.04.2019 14:38 
-Compiler: 
-Error AVR_FREQ not specified!
-
-Error BAUD_RATE not specified!
-Command should look like this:
-make atmega328p AVR_FREQ=16000000L BAUD_RATE=115200 LED=B5 LED_START_FLASHES=2 UART=0
-Where only the last three parameters are optional.
+Build date and time: 21.04.2019 19:51 
+Compiler: avr-gcc 5.4.0
  
 F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
 24000000L	UART0		B0		2		1000000		1000000		0.0%	628 bytes	optiboot_flash_at90can32_UART0_1000000_24000000L_eeprom_support.hex
@@ -90,14 +84,8 @@ F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COM
 
 Optiboot_flash build output for at90can32 
 https://github.com/MCUdude/optiboot_flash 
-Build date and time: 21.04.2019 14:39 
-Compiler: 
-Error AVR_FREQ not specified!
-
-Error BAUD_RATE not specified!
-Command should look like this:
-make atmega328p AVR_FREQ=16000000L BAUD_RATE=115200 LED=B5 LED_START_FLASHES=2 UART=0
-Where only the last three parameters are optional.
+Build date and time: 21.04.2019 19:52 
+Compiler: avr-gcc 5.4.0
  
 F_CPU:		UART NUMBER:	LED PIN:	LED FLASHES:	DESIRED BAUD:	ACTUAL BAUD:	ERROR:	COMPILED SIZE:	OUTPUT FILE:
 24000000L	UART1		B0		2		1000000		1000000		0.0%	628 bytes	optiboot_flash_at90can32_UART1_1000000_24000000L_eeprom_support.hex
