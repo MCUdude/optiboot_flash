@@ -525,13 +525,8 @@ int main(void) {
    * see discusion in https://github.com/Optiboot/optiboot/issues/97
    */
    
-// Fix missing definitions in avr-libc   
-#if defined(__AVR_ATmega8515__) || defined(__AVR_ATmega8535__) || defined(__AVR_ATmega16__) \
-|| defined(__AVR_ATmega162__) || defined (__AVR_ATmega128__)
-  ch = MCUCSR;
-#else
   ch = MCUSR;
-#endif
+
   // Skip all logic and run bootloader if MCUSR is cleared (application request)
   if (ch != 0) {
     /*
@@ -554,14 +549,8 @@ int main(void) {
          * '&' operation is skipped to spare few bytes as bits in MCUSR
          * can only be cleared.
          */
-         
-// Fix missing definitions in avr-libc         
-#if defined(__AVR_ATmega8515__) || defined(__AVR_ATmega8535__) || defined(__AVR_ATmega16__) \
-|| defined(__AVR_ATmega162__) || defined(__AVR_ATmega128__)
-        MCUCSR = ~(_BV(WDRF));  
-#else
+
         MCUSR = ~(_BV(WDRF));  
-#endif
       }
       /* 
  	     * save the reset flags in the designated register
