@@ -42,13 +42,19 @@ declare -a mcu_and_params=(
 "atmega8"     "LED=B5 LED_START_FLASHES=2 UART=0"
 "atmega16"    "LED=B0 LED_START_FLASHES=2 UART=0"
 "atmega32"    "LED=B0 LED_START_FLASHES=2 UART=0"
+"at90can32"   "LED=B0 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
+"at90can32"   "LED=B0 LED_START_FLASHES=2 UART=1 SUPPORT_EEPROM=1"
 "atmega64"    "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
 "atmega64"    "LED=B5 LED_START_FLASHES=2 UART=1 SUPPORT_EEPROM=1"
+"at90can64"   "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
+"at90can64"   "LED=B5 LED_START_FLASHES=2 UART=1 SUPPORT_EEPROM=1"
 "atmega88"    "LED=B5 LED_START_FLASHES=2 UART=0"
 "atmega88p"   "LED=B5 LED_START_FLASHES=2 UART=0"
 "atmega88pb"  "LED=B5 LED_START_FLASHES=2 UART=0"
 "atmega128"   "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
 "atmega128"   "LED=B5 LED_START_FLASHES=2 UART=1 SUPPORT_EEPROM=1"
+"at90can128"  "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
+"at90can128"  "LED=B5 LED_START_FLASHES=2 UART=1 SUPPORT_EEPROM=1"
 "atmega162"   "LED=B0 LED_START_FLASHES=0 UART=0"
 "atmega162"   "LED=B0 LED_START_FLASHES=0 UART=1"
 "atmega164a"  "LED=B0 LED_START_FLASHES=2 UART=0"
@@ -250,7 +256,7 @@ do
   mkdir -p bootloaders/${mcu_and_params[$i]}
   
   # Print build header if one or more builds is ran
-  build_info_header_printed="false"
+  build_info_header_is_printed="false"
   
   # Loop through all clock speeds and baud rates
   for((j=0; j < ${#clock_and_baud[@]}; j+=2));
@@ -266,18 +272,18 @@ do
        if [ -e "${bootloader_file}" ];
        then
          file_exists=true
-         build_info_header_printed="N/A"
+         build_info_header_is_printed="N/A"
        else
          file_exists=false
-         if [ $build_info_header_printed == "N/A" ]
+         if [ $build_info_header_is_printed == "N/A" ]
          then
-           build_info_header_printed="false"
+           build_info_header_is_printed="false"
          fi  
        fi
      fi
      
     # Make sure the build info header is printed only once
-    if [ $build_info_header_printed = "false" ]
+    if [ $build_info_header_is_printed = "false" ]
     then
       # Create header and build info file once
       echo -e "Optiboot_flash build output for ${mcu_and_params[$i]}"\
@@ -286,7 +292,7 @@ do
       "\nCompiler: $(make gcc_version)\n"\
       "\nF_CPU:\t\tUART NUMBER:\tLED PIN:\tLED FLASHES:\tDESIRED BAUD:\tACTUAL BAUD:\tERROR:\tCOMPILED SIZE:\tOUTPUT FILE:"\
       >> bootloaders/${mcu_and_params[$i]}/${mcu_and_params[$i]}_build_info.txt
-      build_info_header_printed="true"
+      build_info_header_is_printed="true"
     fi
      
      
@@ -337,8 +343,11 @@ do
     fi      
   done
   
-  # Add a few newlines at the end of the build info file
-  echo -e "\n" >> bootloaders/${mcu_and_params[$i]}/${mcu_and_params[$i]}_build_info.txt
+  # Add a few newlines at the end of the build info file if something was added
+  if [ $build_info_header_is_printed != "N/A" ]
+  then
+    echo -e "\n" >> bootloaders/${mcu_and_params[$i]}/${mcu_and_params[$i]}_build_info.txt
+    fi
 done
 
 # Delete temporary shell script files

@@ -113,6 +113,16 @@ SIZE           = $(GCCROOT)avr-size
 # appropriate parameters ("-DLED_START_FLASHES=10") to gcc
 #
 
+# Check if current build target is atmega* or at90can*
+ifneq (,$(findstring atmega,$(MAKECMDGOALS)))
+check_baud_and_freq=TRUE
+else ifneq (,$(findstring at90can,$(MAKECMDGOALS)))
+check_baud_and_freq=TRUE
+endif
+
+# Run only if target is atmega* or at90can*
+ifeq ($(check_baud_and_freq),TRUE)
+
 ifndef AVR_FREQ
 $(info )
 $(info Error AVR_FREQ not specified!)
@@ -126,6 +136,8 @@ else
 $(info )
 $(info Error BAUD_RATE not specified!)
 MISSING_PARAMETERS=TRUE
+endif
+
 endif
 
 ifdef LED_START_FLASHES
@@ -283,6 +295,24 @@ endif
 endif
 atmega32a: atmega32
 
+#AT90CAN32
+at90can32: TARGET = at90can32
+at90can32: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+at90can32: maketargetdir
+at90can32: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
+at90can32: bootloaders/at90can32/$(AVR_FREQ)/$(PROGRAM)_at90can32_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+ifeq ($(ASM_OUTPUT), 1)
+at90can32: bootloaders/at90can32/$(AVR_FREQ)/$(PROGRAM)_at90can32_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+endif
+else
+at90can32: bootloaders/at90can32/$(AVR_FREQ)/$(PROGRAM)_at90can32_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
+ifeq ($(ASM_OUTPUT), 1)
+at90can32: bootloaders/at90can32/$(AVR_FREQ)/$(PROGRAM)_at90can32_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
+endif
+
 #ATmega64/A
 atmega64: TARGET = atmega64
 atmega64: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
@@ -301,6 +331,24 @@ atmega64: bootloaders/atmega64/$(AVR_FREQ)/$(PROGRAM)_atmega64_UART$(UART)_$(BAU
 endif
 endif
 atmega64a: atmega64
+
+#ATmega64/A
+at90can64: TARGET = at90can64
+at90can64: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+at90can64: maketargetdir
+at90can64: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
+at90can64: bootloaders/at90can64/$(AVR_FREQ)/$(PROGRAM)_at90can64_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+ifeq ($(ASM_OUTPUT), 1)
+at90can64: bootloaders/at90can64/$(AVR_FREQ)/$(PROGRAM)_at90can64_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+endif
+else
+at90can64: bootloaders/at90can64/$(AVR_FREQ)/$(PROGRAM)_at90can64_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
+ifeq ($(ASM_OUTPUT), 1)
+at90can64: bootloaders/at90can64/$(AVR_FREQ)/$(PROGRAM)_at90can64_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
+endif
 
 #ATmega88/A
 atmega88: TARGET = atmega88
@@ -379,6 +427,24 @@ atmega128: bootloaders/atmega128/$(AVR_FREQ)/$(PROGRAM)_atmega128_UART$(UART)_$(
 endif
 endif
 atmega128a: atmega128
+
+#AT90CAN128
+at90can128: TARGET = at90can128
+at90can128: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+at90can128: maketargetdir
+at90can128: LDSECTIONS = -Wl,--section-start=.text=0x1fc00 -Wl,--section-start=.version=0x1fffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
+at90can128: bootloaders/at90can128/$(AVR_FREQ)/$(PROGRAM)_at90can128_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+ifeq ($(ASM_OUTPUT), 1)
+at90can128: bootloaders/at90can128/$(AVR_FREQ)/$(PROGRAM)_at90can128_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+endif
+else
+at90can128: bootloaders/at90can128/$(AVR_FREQ)/$(PROGRAM)_at90can128_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
+ifeq ($(ASM_OUTPUT), 1)
+at90can128: bootloaders/at90can128/$(AVR_FREQ)/$(PROGRAM)_at90can128_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
+endif
 
 #ATmega162
 atmega162: TARGET = atmega162
