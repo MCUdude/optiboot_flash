@@ -75,6 +75,7 @@ declare -a mcu_and_params=(
 "atmega324pb" "LED=B0 LED_START_FLASHES=2 UART=0"
 "atmega324pb" "LED=B0 LED_START_FLASHES=2 UART=1"
 "atmega324pb" "LED=B0 LED_START_FLASHES=2 UART=2"
+"atmega325"   "LED=B5 LED_START_FLASHES=2 UART=0"
 "atmega328"   "LED=B5 LED_START_FLASHES=2 UART=0"
 "atmega328p"  "LED=B5 LED_START_FLASHES=2 UART=0"
 "atmega328pb" "LED=B5 LED_START_FLASHES=2 UART=0"
@@ -89,6 +90,7 @@ declare -a mcu_and_params=(
 "atmega644a"  "LED=B0 LED_START_FLASHES=2 UART=1 SUPPORT_EEPROM=1"
 "atmega644p"  "LED=B0 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
 "atmega644p"  "LED=B0 LED_START_FLASHES=2 UART=1 SUPPORT_EEPROM=1"
+"atmega645"   "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
 "atmega649"   "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
 "atmega649p"  "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
 "atmega1280"  "LED=B7 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
@@ -107,8 +109,10 @@ declare -a mcu_and_params=(
 "atmega2560"  "LED=B7 LED_START_FLASHES=2 UART=3 SUPPORT_EEPROM=1"
 "atmega2561"  "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
 "atmega2561"  "LED=B5 LED_START_FLASHES=2 UART=1 SUPPORT_EEPROM=1"
+"atmega3250"  "LED=B5 LED_START_FLASHES=2 UART=0"
 "atmega3290"  "LED=B5 LED_START_FLASHES=2 UART=0"
 "atmega3290p" "LED=B5 LED_START_FLASHES=2 UART=0"
+"atmega6450"  "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
 "atmega6490"  "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
 "atmega6490p" "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1"
 "atmega8515"  "LED=B0 LED_START_FLASHES=2 UART=0"
@@ -252,6 +256,9 @@ fi
 # Loop through all MCUs and parameters
 for((i=0; i < ${#mcu_and_params[@]}; i+=2));
 do
+  # Count how many targets we've built for
+  TARGET_COUNTER=$(($TARGET_COUNTER + 1))
+  
   # Create MCU folder if it doesn't exist already
   mkdir -p bootloaders/${mcu_and_params[$i]}
   
@@ -262,9 +269,11 @@ do
   for((j=0; j < ${#clock_and_baud[@]}; j+=2));
   do
     # Count how many builds that have been ran
-    COUNTER=$(($COUNTER + 1))
-    echo -e "\x1B[7m\n\n $COUNTER of $((${#mcu_and_params[@]} * ${#clock_and_baud[@]} / 4)) "
-     
+    BUILD_COUNTER=$(($BUILD_COUNTER + 1))
+    echo -e "\x1B[7m\n\n Build $BUILD_COUNTER of $((${#mcu_and_params[@]} * ${#clock_and_baud[@]} / 4)) "
+    echo -e "\x1B[0mTarget $TARGET_COUNTER of $((${#mcu_and_params[@]} / 2)) " 
+    echo -e "\x1B[0mSub build $((j / 2)) of $((${#clock_and_baud[@]} / 2)) \x1B[7m" 
+    
      # Check if hex file already exists
      if [[ $overwrite_files = false && $delete_all_files = false ]]
      then
