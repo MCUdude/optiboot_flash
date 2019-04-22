@@ -681,6 +681,25 @@ atmega324pb: bootloaders/atmega324pb/$(AVR_FREQ)/$(PROGRAM)_atmega324pb_UART$(UA
 endif
 endif
 
+#ATmega325
+atmega325: TARGET = atmega325
+atmega325: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega325: maketargetdir
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
+atmega325: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
+atmega325: bootloaders/atmega325/$(AVR_FREQ)/$(PROGRAM)_atmega325_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+ifeq ($(ASM_OUTPUT), 1)
+atmega325: bootloaders/atmega325/$(AVR_FREQ)/$(PROGRAM)_atmega325_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+endif
+else
+atmega325: LDSECTIONS = -Wl,--section-start=.text=0x7e00 -Wl,--section-start=.version=0x7ffe
+atmega325: bootloaders/atmega325/$(AVR_FREQ)/$(PROGRAM)_atmega325_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
+ifeq ($(ASM_OUTPUT), 1)
+atmega325: bootloaders/atmega325/$(AVR_FREQ)/$(PROGRAM)_atmega325_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
+endif
+
 #ATmega328/A
 atmega328: TARGET = atmega328
 atmega328: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
@@ -836,6 +855,24 @@ endif
 endif
 atmega644pa: atmega644p
 
+#ATmega645
+atmega645: TARGET = atmega645
+atmega645: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega645: maketargetdir
+atmega645: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
+atmega645: bootloaders/atmega645/$(AVR_FREQ)/$(PROGRAM)_atmega645_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+ifeq ($(ASM_OUTPUT), 1)
+atmega645: bootloaders/atmega640/$(AVR_FREQ)/$(PROGRAM)_atmega645_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+endif
+else
+atmega645: bootloaders/atmega645/$(AVR_FREQ)/$(PROGRAM)_atmega645_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
+ifeq ($(ASM_OUTPUT), 1)
+atmega645: bootloaders/atmega640/$(AVR_FREQ)/$(PROGRAM)_atmega645_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
+endif
+
 #ATmega649
 atmega649: TARGET = atmega649
 atmega649: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
@@ -980,6 +1017,25 @@ atmega2561: bootloaders/atmega2561/$(AVR_FREQ)/$(PROGRAM)_atmega2561_UART$(UART)
 endif
 endif
 
+#ATmega3250
+atmega3250: TARGET = atmega3250
+atmega3250: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega3250: maketargetdir
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM)))
+atmega3250: LDSECTIONS = -Wl,--section-start=.text=0x7c00 -Wl,--section-start=.version=0x7ffe
+atmega3250: bootloaders/atmega3250/$(AVR_FREQ)/$(PROGRAM)_atmega3250_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+ifeq ($(ASM_OUTPUT), 1)
+atmega3250: bootloaders/atmega3250/$(AVR_FREQ)/$(PROGRAM)_atmega3250_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+endif
+else
+atmega3250: LDSECTIONS = -Wl,--section-start=.text=0x7e00 -Wl,--section-start=.version=0x7ffe
+atmega3250: bootloaders/atmega3250/$(AVR_FREQ)/$(PROGRAM)_atmega3250_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
+ifeq ($(ASM_OUTPUT), 1)
+atmega3250: bootloaders/atmega3250/$(AVR_FREQ)/$(PROGRAM)_atmega3250_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
+endif
+
 #ATmega3290
 atmega3290: TARGET = atmega3290
 atmega3290: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
@@ -1018,6 +1074,24 @@ atmega3290p: bootloaders/atmega3290p/$(AVR_FREQ)/$(PROGRAM)_atmega3290p_UART$(UA
 endif
 endif
 atmega3290pa: atmega3290p
+
+#ATmega6450
+atmega6450: TARGET = atmega6450
+atmega6450: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega6450: maketargetdir
+atmega6450: LDSECTIONS = -Wl,--section-start=.text=0xfc00 -Wl,--section-start=.version=0xfffe
+# Change name if eeprom support is preset
+ifneq (,$(filter 1, $(BIGBOOT) $(SUPPORT_EEPROM))) 
+atmega6450: bootloaders/atmega6450/$(AVR_FREQ)/$(PROGRAM)_atmega6450_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.hex
+ifeq ($(ASM_OUTPUT), 1)
+atmega6450: bootloaders/atmega6450/$(AVR_FREQ)/$(PROGRAM)_atmega6450_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_eeprom_support.lst
+endif
+else
+atmega6450: bootloaders/atmega6450/$(AVR_FREQ)/$(PROGRAM)_atmega6450_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).hex
+ifeq ($(ASM_OUTPUT), 1)
+atmega6450: bootloaders/atmega6450/$(AVR_FREQ)/$(PROGRAM)_atmega6450_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ).lst
+endif
+endif
 
 #ATmega6490
 atmega6490: TARGET = atmega6490

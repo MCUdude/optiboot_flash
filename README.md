@@ -1,6 +1,6 @@
 # Optiboot flash
 Optiboot flash is an easy to install bootloader for the Arduino environment. 
-This repository contains a total of 5168 precompiled hex built for 45 different targets with 14 different clock frequencies to choose from.
+This repository contains a total of 5928 precompiled hex files built for 49 different targets with 14 different clock frequencies and 9 different baud rates to choose from.
 
 
 ### Key features:
@@ -19,6 +19,8 @@ This repository contains a total of 5168 precompiled hex built for 45 different 
 * [ATmega8515, ATmega162](https://github.com/MCUdude/MajorCore)
 * [ATmega8, ATmega88/P/PB, ATmega168/P/PB, ATmega328/P/PB](https://github.com/MCUdude/MiniCore)
 * [ATmega169/P, ATmega329/P, ATmega649/P](https://github.com/MCUdude/ButterflyCore)
+* ATmega325, ATmega645,
+* ATmega3250, ATmega6450
 * ATmega3290/P, ATmega6490/P
 
 
@@ -46,12 +48,12 @@ This repository contains a bunch of precompiled hex file with a variety of clock
 ## Using different UARTs
 The table below shows the available serial ports for the corresponding microcontroller. This repository contains precompiled hex files if you want to use other serial ports than UART0.
 
-|                                                                                                                          | UART0 | UART1 | UART2 | UART3 |
-|--------------------------------------------------------------------------------------------------------------------------|-------|-------|-------|-------|
-| ATmega8/88/168/328 <br/> ATmega8515 <br/> ATmega8535/16/32  <br/> ATmega169/329/649  <br/>ATmega3290/6490                | X     |       |       |       |
-| ATmega162 <br/> ATmega328PB <br/> ATmega164/324/644/1284 <br/> ATmega64/128 <br/> AT90CAN32/64/128 <br/> ATmega1281/2561 | X     | X     |       |       |
-| ATmega324PB                                                                                                              | X     | X     | X     |       |
-| ATmega640/1280/2560                                                                                                      | X     | X     | X     | X     |
+|                                                                                                                                                    | UART0 | UART1 | UART2 | UART3 |
+|----------------------------------------------------------------------------------------------------------------------------------------------------|-------|-------|-------|-------|
+| ATmega8/88/168/328 <br/> ATmega8515 <br/> ATmega8535/16/32 <br/> ATmega169/329/649 <br/> ATmega325/645 <br/> ATmega3250/6450 <br/> ATmega3290/6490 | X     |       |       |       |
+| ATmega162 <br/> ATmega328PB <br/> ATmega164/324/644/1284 <br/> ATmega64/128 <br/> AT90CAN32/64/128 <br/> ATmega1281/2561                           | X     | X     |       |       |
+| ATmega324PB                                                                                                                                        | X     | X     | X     |       |
+| ATmega640/1280/2560                                                                                                                                | X     | X     | X     | X     |
 
 
 ## Building from source

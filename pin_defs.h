@@ -277,11 +277,15 @@
 
 
 /*------------------------------------------------------------------------ */
-#if defined(__AVR_ATmega640__) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
+#if defined(__AVR_ATmega325__) || defined(__AVR_ATmega645__) \
+|| defined(__AVR_ATmega3250__) || defined(__AVR_ATmega6450__)
 /*------------------------------------------------------------------------ */
 #if !defined(LED)
-#define LED         B7
+#define LED         B5
 #endif
+
+#define WDTCSR WDTCR
+#define SPMCR SPMCSR
 
 /* Ports for soft UART */
 #ifdef SOFT_UART
