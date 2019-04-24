@@ -236,12 +236,11 @@
 #define TIFR1 TIFR
 #define WDTCSR WDTCR
 
+// MCUSR is flagged as poisoned in iom128.h
+#if !defined(__AVR_ATmega128__)
 #ifndef MCUSR
 #define MCUSR MCUCSR
 #endif
-
-#ifndef SPMCR
-#define SPMCR SPMCSR
 #endif
 
 /* Ports for soft UART */
