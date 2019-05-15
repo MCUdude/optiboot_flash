@@ -492,9 +492,10 @@ int main(void) {
   // If not, uncomment the following instructions:
   // cli();
   asm volatile ("clr __zero_reg__");
-#if defined(__AVR_ATmega8__) || defined(__AVR_ATmega8515__) || defined(__AVR_ATmega8535__) \
-|| defined (__AVR_ATmega16__) || defined (__AVR_ATmega32__) || defined (__AVR_ATmega64__)  \
-|| defined (__AVR_ATmega128__) || defined (__AVR_ATmega162__)
+#if defined(__AVR_ATmega8__) || defined(__AVR_ATmega8515__) || defined(__AVR_ATmega8535__)   \
+|| defined (__AVR_ATmega16__) || defined (__AVR_ATmega32__) || defined (__AVR_ATmega64__)    \
+|| defined (__AVR_ATmega128__) || defined (__AVR_ATmega162__) || defined (__AVR_AT90CAN32__) \
+|| defined (__AVR_AT90CAN64__) || defined (__AVR_AT90CAN128__)
   SP=RAMEND;  // This is done by hardware reset
 #endif
 
