@@ -27,22 +27,22 @@ This repository contains a total of 5928 precompiled hex files built for 49 diff
 ## Precompiled binaries
 This repository contains a bunch of precompiled hex file with a variety of clock frequencies and baud rates:
 
-|             | 1000000 | 500000 | 250000 | 230400 | 115200 | 57600 | 38400 | 19200 | 9600 |
-|-------------|---------|--------|--------|--------|--------|-------|-------|-------|------|
-| 24 MHz      |  X      |  X     |  X     |  X     |  X     |  X    |  X    |  X    |      |
-| 20 MHz      |         |  X     |  X     |        |  X     |       |       |  X    |      |
-| 18.4320 MHz |         |        |        |  X     |  X     |  X    |  X    |  X    |  X   |
-| 16 MHz      |  X      |  X     |  X     |        |  X     |       |  X    |  X    |  X   |
-| 14.7456 MHz |         |        |        |  X     |  X     |  X    |  X    |  X    |  X   | 
-| 12 MHz      |         |  X     |  X     |        |        |  X    |       |  X    |  X   |
-| 11.0592 MHz |         |        |        |  X     |  X     |  X    |  X    |  X    |  X   | 
-| 8 MHz       |  X      |  X     |  X     |        |  X     |  X    |  X    |  X    |  X   |
-| 7.3728 MHz  |         |        |        |  X     |  X     |  X    |  X    |  X    |  X   | 
-| 4 MHz       |         |  X     |  X     |        |        |       |       |  X    |  X   |
-| 3.6864 MHz  |         |        |        |  X     |  X     |  X    |  X    |  X    |  X   | 
-| 2 MHz       |         |        |  X     |        |        |       |       |  X    |  X   |
-| 1.8432 MHz  |         |        |        |  X     |  X     |  X    |  X    |  X    |  X   | 
-| 1 MHz       |         |        |        |        |        |       |       |       |  X   | 
+|             | 1000000 | 500000 | 460800 | 250000 | 230400 | 115200 | 57600 | 38400 | 19200 | 9600 |
+|-------------|---------|--------|--------|--------|--------|--------|-------|-------|-------|------|
+| 24 MHz      |  X      |  X     |        |  X     |  X     |  X     |  X    |  X    |  X    |      |
+| 20 MHz      |         |  X     |        |  X     |        |  X     |       |       |  X    |      |
+| 18.4320 MHz |         |        |  X     |        |  X     |  X     |  X    |  X    |  X    |  X   |
+| 16 MHz      |  X      |  X     |        |  X     |        |  X     |       |  X    |  X    |  X   |
+| 14.7456 MHz |         |        |  X     |        |  X     |  X     |  X    |  X    |  X    |  X   | 
+| 12 MHz      |         |  X     |        |  X     |        |        |  X    |       |  X    |  X   |
+| 11.0592 MHz |         |        |  X     |        |  X     |  X     |  X    |  X    |  X    |  X   | 
+| 8 MHz       |  X      |  X     |        |  X     |        |  X     |  X    |  X    |  X    |  X   |
+| 7.3728 MHz  |         |        |  X     |        |  X     |  X     |  X    |  X    |  X    |  X   | 
+| 4 MHz       |         |  X     |        |  X     |        |        |       |       |  X    |  X   |
+| 3.6864 MHz  |         |        |  X     |        |  X     |  X     |  X    |  X    |  X    |  X   | 
+| 2 MHz       |         |        |        |  X     |        |        |       |       |  X    |  X   |
+| 1.8432 MHz  |         |        |        |        |  X     |  X     |  X    |  X    |  X    |  X   | 
+| 1 MHz       |         |        |        |        |        |        |       |       |       |  X   | 
 
 
 ## Using different UARTs
