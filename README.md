@@ -14,7 +14,7 @@ This repository contains a total of 5928 precompiled hex files built for 49 diff
 ## Supported devices
 * [ATmega640, ATmega1280, ATmega2560](https://github.com/MCUdude/MegaCore)
 * [ATmega64, ATmega128, ATmega1281, ATmega2561](https://github.com/MCUdude/MegaCore)
-* AT90CAN32, AT90CAN64, AT90CAN128,
+* [AT90CAN32, AT90CAN64, AT90CAN128](https://github.com/MCUdude/MegaCore)
 * [ATmega8535, ATmega16, ATmega32, ATmega164A/P, ATmega324A/P/PA/PB, ATmega644/P, ATmega1284/P](https://github.com/MCUdude/MightyCore)
 * [ATmega8515, ATmega162](https://github.com/MCUdude/MajorCore)
 * [ATmega8, ATmega88/P/PB, ATmega168/P/PB, ATmega328/P/PB](https://github.com/MCUdude/MiniCore)
