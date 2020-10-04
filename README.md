@@ -1,6 +1,6 @@
 # Optiboot flash
 Optiboot flash is an easy to install bootloader for the Arduino environment. 
-This repository contains a total of 8976 precompiled hex files built for 49 different targets with 14 different clock frequencies and 9 different baud rates to choose from.
+This repository contains a total of 9328 precompiled hex files built for 53 different targets with 14 different clock frequencies and 9 different baud rates to choose from.
 
 
 ### Key features:
