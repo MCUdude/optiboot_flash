@@ -4,11 +4,12 @@ This repository contains a total of 9328 precompiled hex files built for 53 diff
 
 
 ### Key features:
-* Small in size (<512B when EEPROM upload support is disabled)
+* Small in size (<512 bytes when EEPROM upload support is disabled)
 * Supports baudrates upto 1Mbit
 * Supports write to flash within application
-* Compatible with a most AVR microcontrollers
-* EEPROM upload support 
+* Compatible with a most "classic" AVR microcontrollers
+* EEPROM upload support
+* Chips with 64kiB flash has flash page copy functionality, which is useful for a self-update application like [ArduinoOTA](https://github.com/jandrassy/ArduinoOTA)
 
 
 ## Supported devices
