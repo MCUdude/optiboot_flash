@@ -44,7 +44,7 @@
 
 
 /*------------------------------------------------------------------------ */
-#if defined(__AVR_ATmega8515__) || defined(__AVR_ATmega162__) 
+#if defined(__AVR_ATmega8515__) || defined(__AVR_ATmega162__)
 /*------------------------------------------------------------------------ */
 #if !defined(LED)
 #define LED         B0
@@ -321,8 +321,9 @@
 
 
 /*------------------------------------------------------------------------ */
-#if defined(__AVR_ATmega325__) || defined(__AVR_ATmega645__) \
-|| defined(__AVR_ATmega3250__) || defined(__AVR_ATmega6450__)
+#if defined(__AVR_ATmega325__) || defined(__AVR_ATmega325P__) || defined(__AVR_ATmega645__)   \
+|| defined(__AVR_ATmega645P__) || defined(__AVR_ATmega3250__) || defined(__AVR_ATmega3250P__) \
+|| defined(__AVR_ATmega6450__) || defined(__AVR_ATmega6450P__)
 /*------------------------------------------------------------------------ */
 #if !defined(LED)
 #define LED         B5
@@ -361,7 +362,7 @@
 
 
 /*------------------------------------------------------------------------ */
-#if defined(__AVR_ATmega169__) 
+#if defined(__AVR_ATmega165__) || defined(__AVR_ATmega169__)
 /*------------------------------------------------------------------------ */
 #if !defined(LED)
 #define LED         B5
@@ -394,9 +395,10 @@
 #endif
 
 /*------------------------------------------------------------------------ */
-#if defined(__AVR_ATmega169P__) || defined(__AVR_ATmega329__) || defined(__AVR_ATmega329P__) \
-|| defined(__AVR_ATmega3290__) || defined(__AVR_ATmega3290P__) || defined(__AVR_ATmega649__) \
-|| defined(__AVR_ATmega649P__) || defined(__AVR_ATmega6490__) || defined(__AVR_ATmega6490P__)
+#if defined(__AVR_ATmega165P__) || defined(__AVR_ATmega169P__) || defined(__AVR_ATmega329__)   \
+|| defined(__AVR_ATmega329P__)  || defined(__AVR_ATmega3290__) || defined(__AVR_ATmega3290P__) \
+|| defined(__AVR_ATmega649__)   || defined(__AVR_ATmega649P__) || defined(__AVR_ATmega6490__)  \
+|| defined(__AVR_ATmega6490P__)
 /*------------------------------------------------------------------------ */
 #if !defined(LED)
 #define LED         B5
@@ -460,7 +462,7 @@
 
 /*
  * ------------------------------------------------------------------------
- * A bunch of macros to enable the LED to be specifed as "B5" for bit 5 
+ * A bunch of macros to enable the LED to be specifed as "B5" for bit 5
  * of port B, and similar.
  */
 

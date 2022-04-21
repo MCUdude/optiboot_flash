@@ -19,11 +19,11 @@ This repository contains a total of 9328 precompiled hex files built for 53 diff
 * [ATmega8535, ATmega16, ATmega32, ATmega164A/P, ATmega324A/P/PA/PB, ATmega644/P, ATmega1284/P](https://github.com/MCUdude/MightyCore)
 * [ATmega8515, ATmega162](https://github.com/MCUdude/MajorCore)
 * [ATmega8, ATmega88/P/PB, ATmega168/P/PB, ATmega328/P/PB](https://github.com/MCUdude/MiniCore)
-* [ATmega169/P, ATmega329/P, ATmega649/P](https://github.com/MCUdude/ButterflyCore)
+* [ATmega165/P/PA, ATmega325/P/PA, ATmega645/P](https://github.com/MCUdude/MegaCore)
+* [ATmega3250/P, ATmega6450/P](https://github.com/MCUdude/MegaCore)
+* [ATmega169/P/PA, ATmega329/P/PA, ATmega649/P](https://github.com/MCUdude/MegaCore)
+* [ATmega3290/P, ATmega6490/P](https://github.com/MCUdude/MegaCore)
 * AT90USB646/647, AT90USB1286/1287
-* ATmega325, ATmega645,
-* ATmega3250, ATmega6450
-* ATmega3290/P, ATmega6490/P
 
 
 ## Precompiled binaries
@@ -51,23 +51,23 @@ This repository contains a bunch of precompiled hex file with a variety of clock
 ## Using different UARTs
 The table below shows the available serial ports for the corresponding microcontroller. This repository contains precompiled hex files if you want to use other serial ports than UART0.
 
-| Target                                                                                                                                             | UART0 | UART1 | UART2 | UART3 |
-|----------------------------------------------------------------------------------------------------------------------------------------------------|-------|-------|-------|-------|
-| ATmega8/88/168/328 <br/> ATmega8515 <br/> ATmega8535/16/32 <br/> ATmega169/329/649 <br/> ATmega325/645 <br/> ATmega3250/6450 <br/> ATmega3290/6490 | X     |       |       |       |
-| AT90USB646/647 <br/> AT90USB1286/1287                                                                                                              |       | X     |       |       |
-| ATmega162 <br/> ATmega328PB <br/> ATmega164/324/644/1284 <br/> ATmega64/128 <br/> AT90CAN32/64/128 <br/> ATmega1281/2561                           | X     | X     |       |       |
-| ATmega324PB                                                                                                                                        | X     | X     | X     |       |
-| ATmega640/1280/2560                                                                                                                                | X     | X     | X     | X     |
+| Target                                                                                                                                                 | UART0 | UART1 | UART2 | UART3 |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------|-------|-------|-------|-------|
+| ATmega8/88/168/328 <br/> ATmega8515 <br/> ATmega8535/16/32 <br/> ATmega169/329/649 <br/> ATmega165/325/645 <br/> ATmega3250/6450 <br/> ATmega3290/6490 | X     |       |       |       |
+| AT90USB646/647 <br/> AT90USB1286/1287                                                                                                                  |       | X     |       |       |
+| ATmega162 <br/> ATmega328PB <br/> ATmega164/324/644/1284 <br/> ATmega64/128 <br/> AT90CAN32/64/128 <br/> ATmega1281/2561                               | X     | X     |       |       |
+| ATmega324PB                                                                                                                                            | X     | X     | X     |       |
+| ATmega640/1280/2560                                                                                                                                    | X     | X     | X     | X     |
 
 ## Bootloader LED pin
 All precompiled binaries have an active LED output pin. The LED flashes twice when a hardware reset occurs. The table below shows which pin used used to drive the LED for a particular target:
 
-| Target                                                                                                                                                                              | LED pin  |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| ATmega8515, ATmega162                                                                                                                                                               | PB0      |
-| ATmega8535/16/32 <br/> ATmega164/324/644/1284                                                                                                                                       | PB0, PB7 |
-| ATmega8/88/168/328 <br/> ATmega64/128/1281/2561 <br/> AT90CAN32/64/128 <br/> ATmega325/645, ATmega3250/6450 <br/> AT90USB646/647/1286/1287 <br/> ATmega169/329/649, ATmega3290/6490 | PB5      |
-| ATmega640/1280/2560                                                                                                                                                                 | PB7      |
+| Target                                                                                                                                                                                                                       | LED pin  |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| ATmega8515, ATmega162                                                                                                                                                                                                        | PB0      |
+| ATmega8535/16/32 <br/> ATmega164/324/644/1284                                                                                                                                                                                | PB0, PB7 |
+| ATmega8/88/168/328 <br/> ATmega64/128/1281/2561 <br/> AT90CAN32/64/128 <br/> ATmega325/645, ATmega3250/6450 <br/> AT90USB646/647/1286/1287 <br/> ATmega165/325/645, ATmega3250/6450 <br/> ATmega169/329/649, ATmega3290/6490 | PB5      |
+| ATmega640/1280/2560                                                                                                                                                                                                          | PB7      |
 
 ## Building from source
 You need to have `make` installed. You also need `avr-libc`, `avr-binutils` and `avr-gcc`. Alternatively you can install Arduino IDE, which comes with all these packages except `make`.

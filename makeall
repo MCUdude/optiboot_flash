@@ -81,6 +81,9 @@ declare -a mcu_and_params=(
 "atmega164p"  "LED=B7 LED_START_FLASHES=2 UART=0"
 "atmega164p"  "LED=B7 LED_START_FLASHES=2 UART=1"
 
+"atmega165"   "LED=B5 LED_START_FLASHES=2 UART=0"
+"atmega165p"  "LED=B5 LED_START_FLASHES=2 UART=0"
+
 "atmega168"   "LED=B5 LED_START_FLASHES=2 UART=0"
 "atmega168p"  "LED=B5 LED_START_FLASHES=2 UART=0"
 "atmega168pb" "LED=B5 LED_START_FLASHES=2 UART=0"
@@ -108,6 +111,7 @@ declare -a mcu_and_params=(
 "atmega324pb" "LED=B7 LED_START_FLASHES=2 UART=2"
 
 "atmega325"   "LED=B5 LED_START_FLASHES=2 UART=0"
+"atmega325p"  "LED=B5 LED_START_FLASHES=2 UART=0"
 
 "atmega328"   "LED=B5 LED_START_FLASHES=2 UART=0"
 "atmega328p"  "LED=B5 LED_START_FLASHES=2 UART=0"
@@ -132,6 +136,7 @@ declare -a mcu_and_params=(
 "atmega644p"  "LED=B7 LED_START_FLASHES=2 UART=1 SUPPORT_EEPROM=1 COPY_FLASH_PAGES=1"
 
 "atmega645"   "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1 COPY_FLASH_PAGES=1"
+"atmega645p"  "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1 COPY_FLASH_PAGES=1"
 
 "at90usb646"  "LED=B5 LED_START_FLASHES=2 UART=1 SUPPORT_EEPROM=1 COPY_FLASH_PAGES=1"
 
@@ -171,11 +176,13 @@ declare -a mcu_and_params=(
 "atmega2561"  "LED=B5 LED_START_FLASHES=2 UART=1 SUPPORT_EEPROM=1 COPY_FLASH_PAGES=1"
 
 "atmega3250"  "LED=B5 LED_START_FLASHES=2 UART=0"
+"atmega3250p" "LED=B5 LED_START_FLASHES=2 UART=0"
 
 "atmega3290"  "LED=B5 LED_START_FLASHES=2 UART=0"
 "atmega3290p" "LED=B5 LED_START_FLASHES=2 UART=0"
 
 "atmega6450"  "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1 COPY_FLASH_PAGES=1"
+"atmega6450p" "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1 COPY_FLASH_PAGES=1"
 
 "atmega6490"  "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1 COPY_FLASH_PAGES=1"
 "atmega6490p" "LED=B5 LED_START_FLASHES=2 UART=0 SUPPORT_EEPROM=1 COPY_FLASH_PAGES=1"
@@ -184,7 +191,6 @@ declare -a mcu_and_params=(
 
 "atmega8535"  "LED=B0 LED_START_FLASHES=2 UART=0"
 "atmega8535"  "LED=B7 LED_START_FLASHES=2 UART=0"
-
 )
 
 declare -a clock_and_baud=(
@@ -435,7 +441,7 @@ do
     # Hex file already exist and we're not overwriting
     else
       echo $bootloader_file
-      echo -e "Hex file already exists. Skipping build.."
+      echo -e "Hex file already exists. Skipping build..."
     fi
   done
 
