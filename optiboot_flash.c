@@ -32,7 +32,7 @@
 /*                                                        */
 /* Supported microcontrollers:                            */
 /* See https://github.com/MCUdude/optiboot_flash          */
-/*                                                        */                                                      
+/*                                                        */
 /* Assumptions:                                           */
 /*   The code makes several assumptions that reduce the   */
 /*   code size. They are all true after a hardware reset, */
@@ -141,7 +141,7 @@
 /* July 2018                                              */
 /* 7.0  WestfW (with much input from others)              */
 /*    Fix MCUSR treatement as per much discussion,        */
-/*    Patches by MarkG55, majekw.                         */ 
+/*    Patches by MarkG55, majekw.                         */
 /*    Preserve value for the application,                 */
 /*    as much as possible.                                */
 /*    See https://github.com/Optiboot/optiboot/issues/97  */
@@ -241,7 +241,7 @@
 #define OPTIBOOT_CUSTOMVER 0
 #endif
 
-unsigned const int __attribute__((section(".version"))) 
+unsigned const int __attribute__((section(".version")))
 optiboot_version = 256*(OPTIBOOT_MAJVER + OPTIBOOT_CUSTOMVER) + OPTIBOOT_MINVER;
 
 
@@ -261,7 +261,7 @@ optiboot_version = 256*(OPTIBOOT_MAJVER + OPTIBOOT_CUSTOMVER) + OPTIBOOT_MINVER;
  * assembly of larger words from bytes, but we can use the usual union to
  * do this manually.  Expanding it a little, we can also get rid of casts.
  */
- typedef union 
+ typedef union
  {
   uint8_t  *bptr;
   uint16_t *wptr;
@@ -316,11 +316,11 @@ optiboot_version = 256*(OPTIBOOT_MAJVER + OPTIBOOT_CUSTOMVER) + OPTIBOOT_MINVER;
 #endif
 
 #if BAUD_SETTING > 250
-#error Unachievable baud rate (too slow) BAUD_RATE 
+#error Unachievable baud rate (too slow) BAUD_RATE
 #endif // baud rate slow check
 #if (BAUD_SETTING - 1) < 3
 #if BAUD_ERROR != 0 // permit high bitrates (ie 1Mbps@16MHz) if error is zero
-#error Unachievable baud rate (too fast) BAUD_RATE 
+#error Unachievable baud rate (too fast) BAUD_RATE
 #endif
 #endif // baud rate fast check
 
@@ -492,21 +492,29 @@ int main(void) {
   // If not, uncomment the following instructions:
   // cli();
   asm volatile ("clr __zero_reg__");
-#if defined(__AVR_ATmega8__) || defined(__AVR_ATmega8515__) || defined(__AVR_ATmega8535__)   \
-|| defined (__AVR_ATmega16__) || defined (__AVR_ATmega32__) || defined (__AVR_ATmega64__)    \
-|| defined (__AVR_ATmega128__) || defined (__AVR_ATmega162__) || defined (__AVR_AT90CAN32__) \
-|| defined (__AVR_AT90CAN64__) || defined (__AVR_AT90CAN128__)
+#if defined(__AVR_ATmega8__)    || defined(__AVR_ATmega8515__)  || defined(__AVR_ATmega8535__)  \
+|| defined (__AVR_ATmega16__)   || defined (__AVR_ATmega32__)   || defined (__AVR_ATmega64__)   \
+|| defined (__AVR_ATmega128__)  || defined (__AVR_ATmega162__)  || defined (__AVR_AT90CAN32__)  \
+|| defined (__AVR_AT90CAN64__)  || defined (__AVR_AT90CAN128__) || defined(__AVR_ATmega165__)   \
+|| defined(__AVR_ATmega165P__)  || defined(__AVR_ATmega325__)   || defined(__AVR_ATmega325P__)  \
+|| defined(__AVR_ATmega645__)   || defined(__AVR_ATmega645P__)  || defined(__AVR_ATmega3250__)  \
+|| defined(__AVR_ATmega3250P__) || defined(__AVR_ATmega6450__)  || defined(__AVR_ATmega6450P__) \
+|| defined(__AVR_ATmega169__)   || defined(__AVR_ATmega169P__)  || defined(__AVR_ATmega169P__)  \
+|| defined(__AVR_ATmega329__)   || defined(__AVR_ATmega329P__)  || defined(__AVR_ATmega3290__)  \
+|| defined(__AVR_ATmega3290P__) || defined(__AVR_ATmega649__)   || defined(__AVR_ATmega649P__)  \
+|| defined(__AVR_ATmega6490__)  || defined(__AVR_ATmega6490P__)
   SP=RAMEND;  // This is done by hardware reset
 #endif
+
 
   /*
    * Protect as much from MCUSR as possible for application
    * and still skip bootloader if not necessary
-   * 
+   *
    * Code by MarkG55
    * see discusion in https://github.com/Optiboot/optiboot/issues/97
    */
-   
+
 // Fix ATmega128 avr-libc bug
 #if defined(__AVR_ATmega128__)
 	ch = MCUCSR;
@@ -529,11 +537,11 @@ int main(void) {
      * shouldn't run bootloader in loop :-) That's why:
      *  1. application is running if WDRF is cleared
      *  2. we clear WDRF if it's set with EXTRF to avoid loops
-     * One problematic scenario: broken application code sets watchdog timer 
+     * One problematic scenario: broken application code sets watchdog timer
      * without clearing MCUSR before and triggers it quickly. But it's
      * recoverable by power-on with pushed reset button.
      */
-    if ((ch & (_BV(WDRF) | _BV(EXTRF))) != _BV(EXTRF)) { 
+    if ((ch & (_BV(WDRF) | _BV(EXTRF))) != _BV(EXTRF)) {
       if (ch & _BV(EXTRF)) {
         /*
          * Clear WDRF because it was most probably set by wdr in bootloader.
@@ -545,12 +553,12 @@ int main(void) {
 
 // Fix ATmega128 avr-libc bug
 #if defined(__AVR_ATmega128__)
-	      MCUCSR = ~(_BV(WDRF));  
+	      MCUCSR = ~(_BV(WDRF));
 #else
-	      MCUSR = ~(_BV(WDRF));  
-#endif 
+	      MCUSR = ~(_BV(WDRF));
+#endif
       }
-      /* 
+      /*
        * save the reset flags in the designated register
        * This can be saved in a main program by putting code in .init0 (which
        * executes before normal c init code) to save R2 to a global variable.
@@ -581,7 +589,7 @@ int main(void) {
     );
     }
   }
-  
+
 #if LED_START_FLASHES > 0
   // Set up Timer 1 for timeout counter
   TCCR1B = _BV(CS12) | _BV(CS10); // div 1024
@@ -600,10 +608,10 @@ int main(void) {
 #else
 #ifndef SINGLESPEED
    UART_SRA = _BV(U2X0); // Double speed mode USART0
- #endif  
+ #endif
   UART_SRB = _BV(RXEN0) | _BV(TXEN0);
   UART_SRL = (uint8_t)BAUD_SETTING;
-#if defined(__AVR_ATmega162__) 
+#if defined(__AVR_ATmega162__)
     UART_SRC = _BV(URSEL0) | _BV(UCSZ00) | _BV(UCSZ01);
 #else
     UART_SRC = _BV(UCSZ00) | _BV(UCSZ01);
@@ -976,7 +984,7 @@ void flash_led(uint8_t count) {
 // This doesn't seem to work?
 //    if ((UART_PIN & (1<<UART_RX_BIT)) == 0)
 //      break;  // detect start bit on soft uart too.
-#endif    
+#endif
   } while (--count);
 }
 #endif
@@ -1034,7 +1042,7 @@ static inline void writebuffer(int8_t memtype, addr16_t mybuff,
        */
       do_spm(address.word,__BOOT_PAGE_ERASE,0);
       //boot_spm_busy_wait();
-      
+
       /*
        * Copy data from the buffer into the flash write buffer.
        */
@@ -1111,7 +1119,7 @@ static inline void read_mem(uint8_t memtype, addr16_t address, pagelen_t length)
  */
 static void do_spm(uint16_t address, uint8_t command, uint16_t data) {
     // Do spm stuff
-#if defined(__AVR_ATmega64__) || defined(__AVR_ATmega128__)    
+#if defined(__AVR_ATmega64__) || defined(__AVR_ATmega128__)
      asm volatile (
    "    movw  r0, %3\n"
          "   sts %0, %1\n"
@@ -1124,7 +1132,7 @@ static void do_spm(uint16_t address, uint8_t command, uint16_t data) {
            "r" ((uint16_t)data)
          : "r0"
      );
-#else 
+#else
     asm volatile (
   "    movw  r0, %3\n"
          "   out %0, %1\n"
@@ -1136,8 +1144,8 @@ static void do_spm(uint16_t address, uint8_t command, uint16_t data) {
            "z" ((uint16_t)address),
            "r" ((uint16_t)data)
          : "r0"
-    );     
-#endif    
+    );
+#endif
 
     // wait for spm to complete
     //   it doesn't have much sense for __BOOT_PAGE_FILL,
@@ -1149,11 +1157,11 @@ static void do_spm(uint16_t address, uint8_t command, uint16_t data) {
     // must be also SELFPRGEN set. If we skip checking this bit, we save here 4B
     if ((command & (_BV(PGWRT)|_BV(PGERS))) && (data == 0) ) {
       // Reenable read access to flash
-#if defined(__AVR_ATmega64__) || defined(__AVR_ATmega128__)      
+#if defined(__AVR_ATmega64__) || defined(__AVR_ATmega128__)
       __boot_rww_enable();
 #else
       boot_rww_enable();
-#endif      
+#endif
     }
 #endif
 }
@@ -1163,7 +1171,7 @@ static void do_spm(uint16_t address, uint8_t command, uint16_t data) {
 /*
 * Helper function do_spm_rampz wraps do_spm to handle RAMPZ
 * for copy_flash_pages function. It is inlined by the compiler.
-* 
+*
 * On devices with more than 64kB flash, 16 bit address is not enough,
 * so there is also RAMPZ used in that case.
 */
@@ -1183,8 +1191,8 @@ void do_spm_rampz(uint32_t address, uint8_t command, uint16_t data) {
 * The destination and source address must be page aligned.
 * Additionally parameter reset_mcu activates an (almost) immediate watchdog reset of the MCU after pages are copied.
 *
-* It was created to copy a new version of the aplication stored in the upper half of the flash memory 
-* to the beginnig of the flash and then reset the MCU to run the new version. 
+* It was created to copy a new version of the aplication stored in the upper half of the flash memory
+* to the beginnig of the flash and then reset the MCU to run the new version.
 * It is used by ArduinoOTA libray in InternalStorageAVR over utility/optiboot.h.
 */
 void copy_flash_pages(uint32_t dest_page_addr, uint32_t src_page_addr, uint16_t page_count, uint8_t reset_mcu) {
