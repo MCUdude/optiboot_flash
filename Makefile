@@ -1430,7 +1430,7 @@ clean_lst:
 	rm -rf baudcheck.tmp.sh
 
 gcc_version:
-	- @echo -n avr-gcc\
+	- @echo -n avr-gcc\ 
 	- @$(CC) -dumpversion
 
 %.lst: %.elf

@@ -493,9 +493,9 @@ int main(void) {
   // cli();
   asm volatile ("clr __zero_reg__");
 #if defined(__AVR_ATmega8__)    || defined(__AVR_ATmega8515__)  || defined(__AVR_ATmega8535__)  \
-|| defined (__AVR_ATmega16__)   || defined (__AVR_ATmega32__)   || defined (__AVR_ATmega64__)   \
-|| defined (__AVR_ATmega128__)  || defined (__AVR_ATmega162__)  || defined (__AVR_AT90CAN32__)  \
-|| defined (__AVR_AT90CAN64__)  || defined (__AVR_AT90CAN128__) || defined(__AVR_ATmega165__)   \
+|| defined(__AVR_ATmega16__)    || defined(__AVR_ATmega32__)    || defined(__AVR_ATmega64__)    \
+|| defined(__AVR_ATmega128__)   || defined(__AVR_ATmega162__)   || defined(__AVR_AT90CAN32__)   \
+|| defined(__AVR_AT90CAN64__)   || defined(__AVR_AT90CAN128__)  || defined(__AVR_ATmega165__)   \
 || defined(__AVR_ATmega165P__)  || defined(__AVR_ATmega325__)   || defined(__AVR_ATmega325P__)  \
 || defined(__AVR_ATmega645__)   || defined(__AVR_ATmega645P__)  || defined(__AVR_ATmega3250__)  \
 || defined(__AVR_ATmega3250P__) || defined(__AVR_ATmega6450__)  || defined(__AVR_ATmega6450P__) \
