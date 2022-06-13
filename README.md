@@ -62,12 +62,12 @@ The table below shows the available serial ports for the corresponding microcont
 ## Bootloader LED pin
 All precompiled binaries have an active LED output pin. The LED flashes twice when a hardware reset occurs. The table below shows which pin used used to drive the LED for a particular target:
 
-| Target                                                                                                                                                                                                                       | LED pin  |
-|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| ATmega8515, ATmega162                                                                                                                                                                                                        | PB0      |
-| ATmega8535/16/32 <br/> ATmega164/324/644/1284                                                                                                                                                                                | PB0, PB7 |
-| ATmega8/88/168/328 <br/> ATmega64/128/1281/2561 <br/> AT90CAN32/64/128 <br/> ATmega325/645, ATmega3250/6450 <br/> AT90USB646/647/1286/1287 <br/> ATmega165/325/645, ATmega3250/6450 <br/> ATmega169/329/649, ATmega3290/6490 | PB5      |
-| ATmega640/1280/2560                                                                                                                                                                                                          | PB7      |
+| Target                                                                                                                                                                    | LED pin  |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| ATmega8515, ATmega162                                                                                                                                                     | PB0      |
+| ATmega8535/16/32 <br/> ATmega164/324/644/1284                                                                                                                             | PB0, PB7 |
+| ATmega8/88/168/328 <br/> ATmega64/128/1281/2561 <br/> AT90CAN32/64/128 <br/> ATmega325/645 <br/> AT90USB646/647/1286/1287 <br/> ATmega165/325/645 <br/> ATmega169/329/649 | PB5      |
+| ATmega640/1280/2560 <br/> ATmega3250/6450 <br/> ATmega3290/6490                                                                                                           | PB7      |
 
 ## Building from source
 You need to have `make` installed. You also need `avr-libc`, `avr-binutils` and `avr-gcc`. Alternatively you can install Arduino IDE, which comes with all these packages except `make`.
