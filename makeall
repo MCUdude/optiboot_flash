@@ -82,6 +82,7 @@ declare -a mcu_and_params=(
 "atmega164p"  "LED=B7 LED_START_FLASHES=2 UART=1"
 
 "atmega165"   "LED=B5 LED_START_FLASHES=2 UART=0"
+"atmega165a"  "LED=B5 LED_START_FLASHES=2 UART=0"
 "atmega165p"  "LED=B5 LED_START_FLASHES=2 UART=0"
 
 "atmega168"   "LED=B5 LED_START_FLASHES=2 UART=0"

@@ -520,7 +520,7 @@ endif
 endif
 atmega164pa: atmega164p
 
-#ATmega165/A
+#ATmega165
 atmega165: TARGET = atmega165
 atmega165: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
 atmega165: maketargetdir
@@ -538,7 +538,25 @@ ifeq ($(ASM_OUTPUT), 1)
 atmega165: bootloaders/atmega165/$(AVR_FREQ)/$(PROGRAM)_atmega165_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_$(LED).lst
 endif
 endif
-atmega165a: atmega165
+
+#ATmega165A
+atmega165a: TARGET = atmega165a
+atmega165a: CFLAGS += $(COMMON_OPTIONS) $(UART_CMD)
+atmega165a: maketargetdir
+# Move bootloader location + change name if eeprom support is preset
+ifneq (,$(filter 1, $(COPY_FLASH_PAGES) $(SUPPORT_EEPROM) $(BIGBOOT)))
+atmega165a: LDSECTIONS = -Wl,--section-start=.text=0x3c00 -Wl,--section-start=.version=0x3ffe
+atmega165a: bootloaders/atmega165a/$(AVR_FREQ)/$(PROGRAM)_atmega165a_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_$(LED)_BIGBOOT.hex
+ifeq ($(ASM_OUTPUT), 1)
+atmega165a: bootloaders/atmega165a/$(AVR_FREQ)/$(PROGRAM)_atmega165a_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_$(LED)_BIGBOOT.lst
+endif
+else
+atmega165a: LDSECTIONS = -Wl,--section-start=.text=0x3e00 -Wl,--section-start=.version=0x3ffe
+atmega165a: bootloaders/atmega165a/$(AVR_FREQ)/$(PROGRAM)_atmega165a_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_$(LED).hex
+ifeq ($(ASM_OUTPUT), 1)
+atmega165a: bootloaders/atmega165a/$(AVR_FREQ)/$(PROGRAM)_atmega165a_UART$(UART)_$(BAUD_RATE)_$(AVR_FREQ)_$(LED).lst
+endif
+endif
 
 #ATmega165P/PA
 atmega165p: TARGET = atmega165p
