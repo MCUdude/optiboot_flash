@@ -395,10 +395,10 @@
 #endif
 
 /*------------------------------------------------------------------------ */
-#if defined(__AVR_ATmega165P__) || defined(__AVR_ATmega169P__) || defined(__AVR_ATmega329__)   \
-|| defined(__AVR_ATmega329P__)  || defined(__AVR_ATmega3290__) || defined(__AVR_ATmega3290P__) \
-|| defined(__AVR_ATmega649__)   || defined(__AVR_ATmega649P__) || defined(__AVR_ATmega6490__)  \
-|| defined(__AVR_ATmega6490P__)
+#if defined(__AVR_ATmega165A__) || defined(__AVR_ATmega165P__) || defined(__AVR_ATmega169P__)  \
+|| defined(__AVR_ATmega329__)   || defined(__AVR_ATmega329P__)  || defined(__AVR_ATmega3290__) \
+|| defined(__AVR_ATmega3290P__) || defined(__AVR_ATmega649__)   || defined(__AVR_ATmega649P__) \
+|| defined(__AVR_ATmega6490__)  || defined(__AVR_ATmega6490P__)
 /*------------------------------------------------------------------------ */
 #if !defined(LED)
 #define LED         B5
